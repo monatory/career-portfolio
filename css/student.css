@@ -1,0 +1,511 @@
+/* ==========================================================
+   student.css — 학생 전용 감성 스타일
+   MBTI·사주 앱 느낌 / 그라데이션·큰 카드·이모지·따뜻한 디자인
+   ========================================================== */
+
+/* ----------------------------------------------------------
+   1. 학생 전용 배경 & 레이아웃
+---------------------------------------------------------- */
+body.role-student {
+  background: linear-gradient(160deg, #f0f4ff 0%, #faf5ff 50%, #fff0f6 100%);
+  min-height: 100vh;
+}
+
+/* 학생용 헤더 — 그라데이션 */
+body.role-student #app-header {
+  background: linear-gradient(90deg, #4f46e5 0%, #7c3aed 100%);
+  border-bottom: none;
+  box-shadow: 0 2px 12px rgba(79,70,229,.3);
+}
+body.role-student .header-logo { color: #fff; }
+body.role-student .header-logo-icon { background: rgba(255,255,255,.2); }
+body.role-student .header-user-name { color: rgba(255,255,255,.9); }
+body.role-student .btn-ghost { color: rgba(255,255,255,.8); }
+body.role-student .btn-ghost:hover { background: rgba(255,255,255,.15); color: #fff; }
+body.role-student #app-sidebar { display: none !important; }
+body.role-student #app-content { margin-left: 0; }
+
+/* ----------------------------------------------------------
+   2. 학생 메인 홈
+---------------------------------------------------------- */
+.stu-home { max-width: 720px; margin: 0 auto; padding-bottom: 40px; }
+
+/* 웰컴 히어로 */
+.stu-hero {
+  background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 60%, #db2777 100%);
+  border-radius: var(--radius-xl);
+  padding: 32px 28px;
+  color: #fff;
+  margin-bottom: 24px;
+  position: relative;
+  overflow: hidden;
+}
+.stu-hero::before {
+  content: '';
+  position: absolute;
+  top: -40px; right: -40px;
+  width: 200px; height: 200px;
+  background: rgba(255,255,255,.07);
+  border-radius: 50%;
+}
+.stu-hero::after {
+  content: '';
+  position: absolute;
+  bottom: -60px; left: -20px;
+  width: 160px; height: 160px;
+  background: rgba(255,255,255,.05);
+  border-radius: 50%;
+}
+.stu-hero-greeting {
+  font-size: 13px;
+  opacity: .8;
+  margin-bottom: 6px;
+  position: relative; z-index: 1;
+}
+.stu-hero-name {
+  font-size: 26px;
+  font-weight: 900;
+  margin-bottom: 8px;
+  position: relative; z-index: 1;
+}
+.stu-hero-sub {
+  font-size: 14px;
+  opacity: .85;
+  line-height: 1.6;
+  position: relative; z-index: 1;
+}
+.stu-hero-chips {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 16px;
+  position: relative; z-index: 1;
+}
+.stu-hero-chip {
+  background: rgba(255,255,255,.2);
+  border: 1px solid rgba(255,255,255,.3);
+  border-radius: 999px;
+  padding: 4px 12px;
+  font-size: 12px;
+  font-weight: 600;
+  backdrop-filter: blur(4px);
+}
+
+/* 섹션 타이틀 */
+.stu-section-title {
+  font-size: 15px;
+  font-weight: 800;
+  color: var(--gray-800);
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+/* 5개 메인 카드 그리드 */
+.stu-menu-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+.stu-menu-card {
+  background: #fff;
+  border-radius: var(--radius-lg);
+  padding: 22px 18px;
+  cursor: pointer;
+  transition: transform .2s, box-shadow .2s;
+  box-shadow: 0 2px 12px rgba(0,0,0,.07);
+  border: 1.5px solid rgba(255,255,255,.8);
+  position: relative;
+  overflow: hidden;
+}
+.stu-menu-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 24px rgba(0,0,0,.12);
+}
+.stu-menu-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 4px;
+}
+.stu-card-self::before    { background: linear-gradient(90deg, #6366f1, #818cf8); }
+.stu-card-diag::before    { background: linear-gradient(90deg, #7c3aed, #a78bfa); }
+.stu-card-plan::before    { background: linear-gradient(90deg, #0891b2, #22d3ee); }
+.stu-card-portfolio::before { background: linear-gradient(90deg, #059669, #34d399); }
+.stu-card-job::before     { background: linear-gradient(90deg, #db2777, #f472b6); }
+
+.stu-menu-emoji {
+  font-size: 34px;
+  margin-bottom: 10px;
+  line-height: 1;
+}
+.stu-menu-name {
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--gray-800);
+  margin-bottom: 5px;
+}
+.stu-menu-desc {
+  font-size: 12px;
+  color: var(--gray-500);
+  line-height: 1.5;
+  margin-bottom: 12px;
+}
+.stu-menu-progress-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.stu-menu-pct {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--gray-600);
+  min-width: 32px;
+}
+.stu-menu-status-badge { margin-top: 8px; }
+
+/* ----------------------------------------------------------
+   3. 학생 진단검사 화면 (감성적)
+---------------------------------------------------------- */
+.stu-diag-wrap { max-width: 720px; margin: 0 auto; }
+
+/* AI 결과 결과지 */
+.stu-diag-result {
+  background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+  border-radius: var(--radius-xl);
+  padding: 32px 28px;
+  color: #fff;
+  margin-bottom: 20px;
+}
+.stu-diag-result-title {
+  font-size: 13px;
+  opacity: .8;
+  margin-bottom: 4px;
+}
+.stu-diag-result-headline {
+  font-size: 22px;
+  font-weight: 900;
+  line-height: 1.4;
+  margin-bottom: 16px;
+}
+.stu-strength-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+.stu-strength-chip {
+  background: rgba(255,255,255,.2);
+  border: 1px solid rgba(255,255,255,.3);
+  border-radius: 999px;
+  padding: 6px 14px;
+  font-size: 13px;
+  font-weight: 600;
+  backdrop-filter: blur(4px);
+}
+
+/* 점수 카드 — 학생용 시각화 */
+.stu-score-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  margin-bottom: 16px;
+}
+.stu-score-card {
+  background: #fff;
+  border-radius: var(--radius);
+  padding: 14px 10px;
+  text-align: center;
+  box-shadow: 0 2px 8px rgba(0,0,0,.07);
+}
+.stu-score-label { font-size: 11px; color: var(--gray-500); margin-bottom: 6px; font-weight: 600; }
+.stu-score-val   { font-size: 24px; font-weight: 900; }
+.stu-score-bar   { height: 5px; background: var(--gray-100); border-radius: 999px; overflow: hidden; margin-top: 6px; }
+.stu-score-fill  { height: 100%; border-radius: 999px; }
+
+.score-low  .stu-score-val  { color: #dc2626; }
+.score-low  .stu-score-fill { background: #fca5a5; }
+.score-mid  .stu-score-val  { color: #d97706; }
+.score-mid  .stu-score-fill { background: #fcd34d; }
+.score-high .stu-score-val  { color: #059669; }
+.score-high .stu-score-fill { background: #6ee7b7; }
+
+/* AI 해석 박스 — 학생용 따뜻한 버전 */
+.stu-ai-box {
+  background: #fff;
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  box-shadow: 0 2px 12px rgba(0,0,0,.07);
+  margin-bottom: 16px;
+}
+.stu-ai-box-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--primary);
+  margin-bottom: 10px;
+}
+.stu-ai-text {
+  font-size: 14px;
+  color: var(--gray-700);
+  line-height: 1.8;
+}
+.stu-ai-text strong { color: var(--gray-900); }
+
+/* 업로드 존 */
+.stu-upload-zone {
+  background: #fff;
+  border: 2.5px dashed var(--gray-300);
+  border-radius: var(--radius-lg);
+  padding: 40px 24px;
+  text-align: center;
+  cursor: pointer;
+  transition: border-color .2s, background .2s;
+  margin-bottom: 16px;
+}
+.stu-upload-zone:hover {
+  border-color: var(--primary);
+  background: var(--primary-light);
+}
+.stu-upload-icon  { font-size: 40px; margin-bottom: 12px; }
+.stu-upload-title { font-size: 16px; font-weight: 700; color: var(--gray-700); margin-bottom: 4px; }
+.stu-upload-sub   { font-size: 13px; color: var(--gray-400); }
+
+/* ----------------------------------------------------------
+   4. 학생 포트폴리오 (성장 스토리)
+---------------------------------------------------------- */
+.stu-portfolio-wrap { max-width: 720px; margin: 0 auto; }
+
+.stu-growth-card {
+  background: #fff;
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  box-shadow: 0 2px 12px rgba(0,0,0,.07);
+  margin-bottom: 14px;
+  border-left: 5px solid transparent;
+}
+.stu-growth-card.stage-explore  { border-color: #6366f1; }
+.stu-growth-card.stage-set      { border-color: #7c3aed; }
+.stu-growth-card.stage-prepare  { border-color: #0891b2; }
+.stu-growth-card.stage-job      { border-color: #db2777; }
+
+.stu-growth-stage {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: .05em;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+.stu-growth-title {
+  font-size: 17px;
+  font-weight: 800;
+  color: var(--gray-900);
+  margin-bottom: 8px;
+}
+.stu-growth-body {
+  font-size: 14px;
+  color: var(--gray-600);
+  line-height: 1.7;
+}
+.stu-roadmap-list { display: flex; flex-direction: column; gap: 10px; margin-top: 14px; }
+.stu-roadmap-item {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  padding: 10px 14px;
+  background: var(--gray-50);
+  border-radius: var(--radius-sm);
+}
+.stu-roadmap-dot {
+  width: 20px; height: 20px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px;
+  font-weight: 800;
+  color: #fff;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+.stu-roadmap-text { font-size: 13px; color: var(--gray-700); line-height: 1.5; }
+
+/* ----------------------------------------------------------
+   5. 학생 취업준비 (게이지)
+---------------------------------------------------------- */
+.stu-job-wrap { max-width: 720px; margin: 0 auto; }
+
+.stu-readiness-ring-wrap {
+  background: linear-gradient(135deg, #1e1b4b, #4c1d95);
+  border-radius: var(--radius-xl);
+  padding: 32px;
+  color: #fff;
+  text-align: center;
+  margin-bottom: 20px;
+}
+.stu-readiness-ring-label { font-size: 13px; opacity: .75; margin-bottom: 16px; }
+.stu-ring-container {
+  position: relative;
+  width: 140px; height: 140px;
+  margin: 0 auto 16px;
+}
+.stu-ring-svg { transform: rotate(-90deg); }
+.stu-ring-bg  { fill: none; stroke: rgba(255,255,255,.15); stroke-width: 12; }
+.stu-ring-fg  { fill: none; stroke: #a78bfa; stroke-width: 12; stroke-linecap: round; transition: stroke-dashoffset .8s ease; }
+.stu-ring-text {
+  position: absolute;
+  inset: 0;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+}
+.stu-ring-pct  { font-size: 30px; font-weight: 900; line-height: 1; }
+.stu-ring-unit { font-size: 13px; opacity: .7; }
+
+.stu-checklist { display: flex; flex-direction: column; gap: 10px; }
+.stu-check-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px;
+  background: #fff;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+  cursor: pointer;
+  transition: background .13s;
+}
+.stu-check-item:hover { background: var(--gray-50); }
+.stu-check-circle {
+  width: 24px; height: 24px;
+  border-radius: 50%;
+  border: 2px solid var(--gray-300);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  transition: all .2s;
+}
+.stu-check-item.done .stu-check-circle {
+  background: var(--success);
+  border-color: var(--success);
+  color: #fff;
+  font-size: 13px;
+}
+.stu-check-label { font-size: 14px; color: var(--gray-700); font-weight: 500; flex: 1; }
+.stu-check-item.done .stu-check-label { color: var(--gray-400); text-decoration: line-through; }
+
+/* ----------------------------------------------------------
+   6. 자기이해 화면
+---------------------------------------------------------- */
+.stu-self-wrap { max-width: 720px; margin: 0 auto; }
+
+.stu-mbti-card {
+  background: linear-gradient(135deg, #0f172a, #1e1b4b);
+  border-radius: var(--radius-xl);
+  padding: 28px;
+  color: #fff;
+  margin-bottom: 16px;
+  text-align: center;
+}
+.stu-mbti-type {
+  font-size: 56px;
+  font-weight: 900;
+  letter-spacing: .08em;
+  background: linear-gradient(90deg, #a78bfa, #f472b6);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 6px;
+}
+.stu-mbti-name { font-size: 18px; font-weight: 700; margin-bottom: 8px; opacity: .9; }
+.stu-mbti-desc { font-size: 13px; opacity: .7; line-height: 1.7; max-width: 400px; margin: 0 auto; }
+
+.stu-trait-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 16px; }
+.stu-trait-card {
+  background: #fff;
+  border-radius: var(--radius);
+  padding: 16px;
+  box-shadow: var(--shadow-sm);
+  text-align: center;
+}
+.stu-trait-emoji { font-size: 24px; margin-bottom: 6px; }
+.stu-trait-name  { font-size: 13px; font-weight: 700; color: var(--gray-700); margin-bottom: 4px; }
+.stu-trait-desc  { font-size: 12px; color: var(--gray-500); line-height: 1.4; }
+
+/* ----------------------------------------------------------
+   7. 뒤로가기 헤더 (학생용)
+---------------------------------------------------------- */
+.stu-page-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+  max-width: 720px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.stu-back-btn {
+  width: 36px; height: 36px;
+  background: #fff;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px;
+  box-shadow: var(--shadow);
+  cursor: pointer;
+  border: none;
+  flex-shrink: 0;
+  transition: background .15s;
+}
+.stu-back-btn:hover { background: var(--gray-100); }
+.stu-page-title-wrap .stu-ptitle { font-size: 20px; font-weight: 800; color: var(--gray-900); }
+.stu-page-title-wrap .stu-psub   { font-size: 13px; color: var(--gray-500); margin-top: 2px; }
+
+/* ----------------------------------------------------------
+   8. 애니메이션
+---------------------------------------------------------- */
+@keyframes fade-in-up {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.stu-animate { animation: fade-in-up .4s ease both; }
+.stu-animate-delay-1 { animation-delay: .08s; }
+.stu-animate-delay-2 { animation-delay: .16s; }
+.stu-animate-delay-3 { animation-delay: .24s; }
+.stu-animate-delay-4 { animation-delay: .32s; }
+.stu-animate-delay-5 { animation-delay: .40s; }
+
+/* ----------------------------------------------------------
+   9. 반응형
+---------------------------------------------------------- */
+@media (max-width: 480px) {
+  .stu-menu-grid    { grid-template-columns: 1fr; }
+  .stu-score-grid   { grid-template-columns: repeat(2, 1fr); }
+  .stu-trait-grid   { grid-template-columns: 1fr; }
+  .stu-diag-result  { padding: 24px 18px; }
+  .stu-hero         { padding: 24px 18px; }
+}
+
+/* ----------------------------------------------------------
+   온보딩 전용
+---------------------------------------------------------- */
+.stu-onb-btn {
+  width: 100%;
+  background: linear-gradient(135deg, #4f46e5, #7c3aed);
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  padding: 13px;
+  font-size: 15px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: opacity .15s;
+}
+.stu-onb-btn:hover { opacity: .88; }
+
+/* 채팅 타이핑 애니메이션 */
+@keyframes bounce {
+  from { transform: translateY(0); opacity: .4; }
+  to   { transform: translateY(-6px); opacity: 1; }
+}
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}

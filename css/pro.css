@@ -1,0 +1,540 @@
+/* ==========================================================
+   pro.css — 상담사·교수·관리자 업무용 스타일
+   흰 배경·표·정보 밀도 높은 전문가 시스템 느낌
+   ========================================================== */
+
+/* ----------------------------------------------------------
+   1. 역할별 body 클래스 기본
+---------------------------------------------------------- */
+body.role-counselor,
+body.role-professor,
+body.role-admin {
+  background: var(--gray-50);
+}
+
+/* 사이드바 있는 레이아웃 */
+body.role-counselor #app-content,
+body.role-professor #app-content,
+body.role-admin     #app-content {
+  margin-left: var(--sidebar-w);
+}
+
+/* ----------------------------------------------------------
+   2. 학생 목록 화면
+---------------------------------------------------------- */
+.pro-list-wrap {}
+
+/* 상단 필터 바 */
+.filter-bar {
+  background: #fff;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--gray-200);
+  padding: 14px 20px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+  margin-bottom: 16px;
+}
+.filter-bar .form-select { width: auto; min-width: 120px; padding: 7px 10px; font-size: 13px; }
+.filter-bar .form-input  { width: auto; min-width: 200px; padding: 7px 10px 7px 32px; font-size: 13px; }
+
+/* 학생 카드 목록 */
+.student-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 14px;
+}
+.student-card {
+  background: #fff;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  border: 1px solid var(--gray-200);
+  padding: 18px 20px;
+  cursor: pointer;
+  transition: box-shadow .15s, transform .15s, border-color .15s;
+}
+.student-card:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+  border-color: var(--primary);
+}
+.student-card-top {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+.student-avatar {
+  width: 40px; height: 40px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #6366f1, #8b5cf6);
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 800; font-size: 15px; color: #fff;
+  flex-shrink: 0;
+}
+.student-name   { font-size: 15px; font-weight: 700; color: var(--gray-900); }
+.student-meta   { font-size: 12px; color: var(--gray-500); margin-top: 1px; }
+.student-card-progress {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 10px;
+}
+.student-card-progress .progress-bar { flex: 1; height: 6px; }
+.student-card-pct { font-size: 12px; font-weight: 700; color: var(--gray-600); width: 30px; text-align: right; }
+
+/* 테이블 뷰 전환 */
+.view-toggle {
+  display: flex;
+  border: 1.5px solid var(--gray-200);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+}
+.view-toggle-btn {
+  padding: 6px 12px;
+  font-size: 16px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--gray-400);
+  transition: all .13s;
+}
+.view-toggle-btn.active { background: var(--primary-light); color: var(--primary); }
+
+/* ----------------------------------------------------------
+   3. 학생 상세 화면 (상담사용)
+---------------------------------------------------------- */
+.pro-detail-header {
+  background: #fff;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  border: 1px solid var(--gray-200);
+  padding: 20px 24px;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+.pro-detail-avatar {
+  width: 56px; height: 56px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #4f46e5, #7c3aed);
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 900; font-size: 20px; color: #fff;
+  flex-shrink: 0;
+}
+.pro-detail-name  { font-size: 20px; font-weight: 800; color: var(--gray-900); }
+.pro-detail-meta  { font-size: 13px; color: var(--gray-500); margin-top: 3px; display: flex; gap: 12px; flex-wrap: wrap; }
+.pro-detail-meta span { display: flex; align-items: center; gap: 4px; }
+.pro-detail-actions { margin-left: auto; display: flex; gap: 8px; align-items: center; }
+
+/* 탭 콘텐츠 패널 */
+.tab-panel { display: none; }
+.tab-panel.active { display: block; }
+
+/* ----------------------------------------------------------
+   4. 진단검사 — 전문가 편집 뷰
+---------------------------------------------------------- */
+.diag-pro-card {
+  background: #fff;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  border: 1px solid var(--gray-200);
+  overflow: hidden;
+  margin-bottom: 16px;
+}
+.diag-pro-card-header {
+  padding: 14px 20px;
+  border-bottom: 1px solid var(--gray-100);
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  background: var(--gray-50);
+}
+.diag-meta-item .diag-meta-label { font-size: 11px; font-weight: 700; color: var(--gray-400); letter-spacing: .05em; }
+.diag-meta-item .diag-meta-val   { font-size: 14px; font-weight: 700; color: var(--gray-800); margin-top: 2px; }
+.diag-status-badge { margin-left: auto; }
+.status-normal    { color: var(--success); font-weight: 800; }
+.status-caution   { color: var(--warning); font-weight: 800; }
+.status-high-risk { color: var(--danger);  font-weight: 800; }
+
+/* 점수 카드 (전문가용) */
+.pro-score-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--gray-100);
+}
+.pro-score-chip {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: var(--gray-50);
+  border: 1.5px solid var(--gray-200);
+  border-radius: 10px;
+  padding: 10px 14px;
+  min-width: 72px;
+}
+.pro-score-chip.low  { border-color: #fca5a5; background: #fff5f5; }
+.pro-score-chip.mid  { border-color: #fcd34d; background: #fffbeb; }
+.pro-score-chip.high { border-color: #6ee7b7; background: #f0fdf4; }
+.pro-score-chip .psc-label { font-size: 11px; color: var(--gray-500); font-weight: 600; margin-bottom: 4px; }
+.pro-score-chip .psc-val   { font-size: 20px; font-weight: 800; }
+.pro-score-chip.low  .psc-val { color: var(--danger); }
+.pro-score-chip.mid  .psc-val { color: var(--warning); }
+.pro-score-chip.high .psc-val { color: var(--success); }
+
+/* 메모 2단 편집 영역 */
+.diag-memo-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  padding: 16px 20px;
+}
+.diag-memo-col .dmemo-label {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--gray-500);
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.diag-memo-col .form-textarea { min-height: 120px; font-size: 13px; }
+
+/* AI 생성 원문 표시 */
+.ai-original-box {
+  background: var(--primary-light);
+  border: 1px solid #c7d2fe;
+  border-radius: var(--radius-sm);
+  padding: 12px 14px;
+  font-size: 13px;
+  color: var(--primary-dark);
+  line-height: 1.7;
+  margin-bottom: 8px;
+}
+.ai-original-label { font-size: 11px; font-weight: 700; color: var(--primary); margin-bottom: 6px; letter-spacing: .04em; }
+
+/* ----------------------------------------------------------
+   5. 상담일지
+---------------------------------------------------------- */
+.log-item {
+  background: #fff;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--gray-200);
+  padding: 18px 20px;
+  margin-bottom: 12px;
+  transition: box-shadow .15s;
+}
+.log-item:hover { box-shadow: var(--shadow-md); }
+.log-item-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+.log-session-num {
+  width: 28px; height: 28px;
+  background: var(--primary);
+  color: #fff;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px;
+  font-weight: 800;
+  flex-shrink: 0;
+}
+.log-title   { font-size: 14px; font-weight: 700; color: var(--gray-800); }
+.log-meta    { font-size: 12px; color: var(--gray-400); margin-top: 2px; }
+.log-actions { margin-left: auto; display: flex; gap: 6px; }
+.log-content { font-size: 13px; color: var(--gray-600); line-height: 1.7; }
+.log-follow-up {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  margin-top: 10px;
+  padding: 4px 10px;
+  background: #fef3c7;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #92400e;
+}
+
+/* ----------------------------------------------------------
+   6. 취업준비 (전문가)
+---------------------------------------------------------- */
+.emp-section-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.emp-field-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 14px 16px;
+  background: var(--gray-50);
+  border-radius: var(--radius-sm);
+}
+.emp-field-label { font-size: 12px; font-weight: 700; color: var(--gray-500); }
+.emp-field-val   { font-size: 14px; font-weight: 600; color: var(--gray-800); }
+.emp-chip-list { display: flex; flex-wrap: wrap; gap: 6px; }
+
+/* 준비도 체크리스트 (전문가) */
+.prep-check-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--gray-100);
+}
+.prep-check-row:last-child { border-bottom: none; }
+.prep-check-icon { font-size: 18px; width: 24px; text-align: center; }
+.prep-check-label { font-size: 14px; color: var(--gray-700); flex: 1; }
+.prep-check-status { font-size: 13px; font-weight: 700; }
+.prep-check-status.done { color: var(--success); }
+.prep-check-status.not  { color: var(--gray-400); }
+
+/* ----------------------------------------------------------
+   7. 교수 전용
+---------------------------------------------------------- */
+.prof-approval-card {
+  background: #fff;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  border: 1px solid var(--gray-200);
+  padding: 20px;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.prof-approval-card .pac-info { flex: 1; }
+.pac-name   { font-size: 15px; font-weight: 700; color: var(--gray-900); }
+.pac-detail { font-size: 13px; color: var(--gray-500); margin-top: 3px; }
+.pac-actions { display: flex; gap: 8px; }
+
+/* 교수용 포트폴리오 열람 */
+.prof-portfolio-view {
+  background: #fff;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  border: 1px solid var(--gray-200);
+  overflow: hidden;
+}
+.prof-portfolio-header {
+  background: linear-gradient(90deg, #4f46e5, #7c3aed);
+  padding: 20px 24px;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.prof-portfolio-title { font-size: 18px; font-weight: 800; }
+.prof-portfolio-meta  { font-size: 13px; opacity: .8; margin-top: 3px; }
+.prof-portfolio-body  { padding: 24px; }
+.prof-roadmap-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+.prof-roadmap-item {
+  background: var(--gray-50);
+  border-radius: var(--radius-sm);
+  padding: 14px;
+  border-left: 4px solid;
+}
+.prof-roadmap-item.short { border-color: #6366f1; }
+.prof-roadmap-item.mid   { border-color: #0891b2; }
+.prof-roadmap-item.long  { border-color: #059669; }
+.prof-roadmap-term {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .05em;
+  margin-bottom: 6px;
+  text-transform: uppercase;
+}
+.prof-roadmap-term.short { color: #6366f1; }
+.prof-roadmap-term.mid   { color: #0891b2; }
+.prof-roadmap-term.long  { color: #059669; }
+.prof-roadmap-goal  { font-size: 14px; font-weight: 700; color: var(--gray-800); margin-bottom: 4px; }
+.prof-roadmap-sched { font-size: 12px; color: var(--gray-500); }
+
+/* 피드백 입력 영역 (교수) */
+.prof-feedback-box {
+  background: #f0fdf4;
+  border: 1.5px solid #bbf7d0;
+  border-radius: var(--radius-sm);
+  padding: 16px;
+  margin-top: 16px;
+}
+.prof-feedback-label { font-size: 13px; font-weight: 700; color: #065f46; margin-bottom: 8px; }
+.prof-feedback-box .form-textarea { background: #fff; }
+
+/* ----------------------------------------------------------
+   8. 관리자 화면
+---------------------------------------------------------- */
+.admin-stat-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+/* RAG 업로드 영역 */
+.rag-upload-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 20px; }
+.rag-upload-card {
+  border: 2px dashed var(--gray-300);
+  border-radius: var(--radius);
+  padding: 28px 20px;
+  text-align: center;
+  cursor: pointer;
+  transition: border-color .2s, background .2s;
+  background: #fff;
+}
+.rag-upload-card:hover { border-color: var(--primary); background: var(--primary-light); }
+.rag-upload-icon  { font-size: 32px; margin-bottom: 10px; }
+.rag-upload-title { font-size: 14px; font-weight: 700; color: var(--gray-700); margin-bottom: 4px; }
+.rag-upload-sub   { font-size: 12px; color: var(--gray-400); }
+
+/* 사용자 관리 */
+.user-role-badge { padding: 3px 10px; border-radius: 999px; font-size: 12px; font-weight: 700; }
+.role-admin     { background: #fde8e8; color: #dc2626; }
+.role-counselor { background: #e0e7ff; color: #3730a3; }
+
+/* 통계 차트 대역 */
+.chart-bar-list { display: flex; flex-direction: column; gap: 10px; }
+.chart-bar-item { display: flex; flex-direction: column; gap: 5px; }
+.chart-bar-label { display: flex; justify-content: space-between; font-size: 13px; }
+.chart-bar-label .dept-name { color: var(--gray-700); font-weight: 500; }
+.chart-bar-label .dept-val  { font-weight: 700; color: var(--gray-800); }
+
+/* ----------------------------------------------------------
+   9. 3단 편집 레이아웃 (AI원문 | 편집 | 이력)
+---------------------------------------------------------- */
+.three-col-editor {
+  display: grid;
+  grid-template-columns: 1fr 1fr 0.8fr;
+  gap: 16px;
+}
+.editor-col {
+  background: #fff;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--gray-200);
+  overflow: hidden;
+}
+.editor-col-header {
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--gray-100);
+  background: var(--gray-50);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--gray-700);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.editor-col-body { padding: 14px 16px; }
+.editor-col-body .form-textarea { min-height: 180px; font-size: 13px; }
+
+/* ----------------------------------------------------------
+   10. AI 상담 어시스턴트 패널 (상담사용)
+---------------------------------------------------------- */
+.ai-chat-wrap {
+  background: #fff;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  border: 1px solid var(--gray-200);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  height: 520px;
+}
+.ai-chat-header {
+  background: linear-gradient(90deg, #4f46e5, #7c3aed);
+  padding: 14px 20px;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.ai-chat-header .ai-icon { font-size: 22px; }
+.ai-chat-header .ai-title { font-weight: 700; font-size: 15px; }
+.ai-chat-header .ai-sub   { font-size: 12px; opacity: .75; }
+.ai-messages {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  background: var(--gray-50);
+}
+.ai-bubble {
+  max-width: 80%;
+  padding: 12px 16px;
+  border-radius: 16px;
+  font-size: 13px;
+  line-height: 1.65;
+}
+.ai-bubble.ai   { background: #fff; box-shadow: var(--shadow-sm); border-radius: 4px 16px 16px 16px; align-self: flex-start; color: var(--gray-800); }
+.ai-bubble.user { background: var(--primary); color: #fff; border-radius: 16px 16px 4px 16px; align-self: flex-end; }
+.ai-bubble strong { font-weight: 700; }
+.ai-input-row {
+  padding: 12px 16px;
+  border-top: 1px solid var(--gray-200);
+  background: #fff;
+  display: flex;
+  gap: 8px;
+  align-items: flex-end;
+}
+.ai-input-row .form-textarea { min-height: 40px; max-height: 100px; font-size: 13px; padding: 8px 12px; }
+.ai-send-btn {
+  width: 40px; height: 40px;
+  background: var(--primary);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  font-size: 16px;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  transition: background .15s;
+}
+.ai-send-btn:hover { background: var(--primary-dark); }
+
+/* ----------------------------------------------------------
+   11. 종합요약 (상담사·교수 공용)
+---------------------------------------------------------- */
+.summary-stage-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 16px;
+  border-radius: 999px;
+  font-size: 14px;
+  font-weight: 800;
+}
+.stage-explore  { background: #e0e7ff; color: #3730a3; }
+.stage-set      { background: #ede9fe; color: #6d28d9; }
+.stage-prepare  { background: #ccfbf1; color: #0f766e; }
+.stage-job      { background: #fce7f3; color: #9d174d; }
+
+.summary-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-top: 16px;
+}
+.summary-item-card {
+  background: #fff;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--gray-200);
+  padding: 16px;
+}
+.summary-item-label { font-size: 12px; font-weight: 700; color: var(--gray-500); margin-bottom: 8px; letter-spacing: .04em; text-transform: uppercase; }
+.summary-item-val   { font-size: 15px; font-weight: 600; color: var(--gray-800); }
+.summary-item-sub   { font-size: 12px; color: var(--gray-500); margin-top: 4px; }
