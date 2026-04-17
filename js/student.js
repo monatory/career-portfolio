@@ -26,21 +26,117 @@ const ONB = {
 };
 
 function renderStudentOnboarding() {
+  document.getElementById('app-content').innerHTML = `
+  <div style="max-width:520px;margin:0 auto;padding:32px 20px">
+
+    <!-- 상단 인사 -->
+    <div style="text-align:center;margin-bottom:32px" class="stu-animate">
+      <div style="font-size:50px;margin-bottom:12px">👋</div>
+      <div style="font-size:22px;font-weight:900;color:#1f2937;margin-bottom:8px">
+        처음 오셨군요, 반가워요!
+      </div>
+      <div style="font-size:14px;color:#6b7280;line-height:1.7">
+        정보를 입력하면 AI가 나만의<br>진로 포트폴리오를 만들어드려요 ✨
+      </div>
+    </div>
+
+    <!-- 방식 선택 카드 2개 -->
+    <div style="display:flex;flex-direction:column;gap:14px">
+
+      <!-- 카드 1: AI 대화형 -->
+      <div onclick="onbStartChat()"
+        class="stu-animate"
+        style="background:linear-gradient(135deg,#4f46e5,#7c3aed);border-radius:22px;
+          padding:24px 22px;cursor:pointer;position:relative;overflow:hidden;
+          box-shadow:0 6px 28px rgba(79,70,229,.38);transition:transform .15s"
+        onmouseover="this.style.transform='scale(1.02)'"
+        onmouseout="this.style.transform='scale(1)'">
+        <div style="position:absolute;top:-24px;right:-24px;width:110px;height:110px;
+          border-radius:50%;background:rgba(255,255,255,.07)"></div>
+        <div style="position:absolute;bottom:-28px;right:32px;width:74px;height:74px;
+          border-radius:50%;background:rgba(255,255,255,.05)"></div>
+
+        <div style="display:inline-block;background:rgba(255,255,255,.2);color:#fff;
+          border:1px solid rgba(255,255,255,.3);border-radius:999px;
+          padding:4px 14px;font-size:11px;font-weight:800;margin-bottom:14px">
+          ⭐ 처음 오신 분 추천
+        </div>
+        <div style="display:flex;align-items:center;gap:14px;margin-bottom:12px">
+          <span style="font-size:42px">💬</span>
+          <div>
+            <div style="font-size:18px;font-weight:900;color:#fff;margin-bottom:3px">AI와 대화로 입력하기</div>
+            <div style="font-size:13px;color:rgba(255,255,255,.72)">처음이세요? AI가 하나씩 물어봐드려요</div>
+          </div>
+        </div>
+        <div style="background:rgba(255,255,255,.14);border-radius:12px;padding:12px 16px;
+          font-size:13px;color:rgba(255,255,255,.82);line-height:1.7;margin-bottom:12px">
+          🤖 "안녕하세요! 먼저 학과와 학년을 알려주세요~"<br>
+          → 부담 없이 대화하듯 입력할 수 있어요
+        </div>
+        <div style="text-align:right;color:rgba(255,255,255,.65);font-size:13px;font-weight:700">
+          시작하기 →
+        </div>
+      </div>
+
+      <!-- 카드 2: 직접 입력 -->
+      <div onclick="renderOnbDirect(1)"
+        class="stu-animate stu-animate-delay-1"
+        style="background:#fff;border:2px solid #e9d5ff;border-radius:22px;
+          padding:24px 22px;cursor:pointer;position:relative;overflow:hidden;
+          box-shadow:0 4px 18px rgba(124,58,237,.12);transition:all .15s"
+        onmouseover="this.style.borderColor='#a855f7';this.style.transform='scale(1.02)'"
+        onmouseout="this.style.borderColor='#e9d5ff';this.style.transform='scale(1)'">
+        <div style="position:absolute;top:-18px;right:-18px;width:88px;height:88px;
+          border-radius:50%;background:#fdf4ff"></div>
+
+        <div style="display:inline-block;background:#fdf4ff;color:#7c3aed;
+          border:1.5px solid #e9d5ff;border-radius:999px;
+          padding:4px 14px;font-size:11px;font-weight:800;margin-bottom:14px">
+          📋 재학생·복학생 추천
+        </div>
+        <div style="display:flex;align-items:center;gap:14px;margin-bottom:12px">
+          <span style="font-size:42px">📝</span>
+          <div>
+            <div style="font-size:18px;font-weight:900;color:#1f2937;margin-bottom:3px">직접 입력하기</div>
+            <div style="font-size:13px;color:#6b7280">이미 알고 있다면 빠르게 입력해요</div>
+          </div>
+        </div>
+        <div style="background:#faf5ff;border-radius:12px;padding:12px 16px;
+          font-size:13px;color:#6b7280;line-height:1.7;
+          border:1px solid #f3e8ff;margin-bottom:12px">
+          📌 3단계 폼으로 빠르게 완성<br>
+          → 기본정보 · 심리건강 · 진단검사 순으로 입력해요
+        </div>
+        <div style="text-align:right;color:#7c3aed;font-size:13px;font-weight:700">
+          바로 입력 →
+        </div>
+      </div>
+
+    </div>
+  </div>`;
+}
+
+/* ── AI 대화형 입력 시작 (기존 5단계 흐름) ── */
+function onbStartChat() {
   ONB.step = 0;
   ONB.data = {};
 
   document.getElementById('app-content').innerHTML = `
-  <div style="max-width:600px;margin:0 auto;padding:28px 20px">
+  <div style="max-width:600px;margin:0 auto;padding:24px 20px">
 
-    <!-- 상단 인사 -->
-    <div style="text-align:center;margin-bottom:28px" class="stu-animate">
-      <div style="font-size:44px;margin-bottom:10px">👋</div>
-      <div style="font-size:22px;font-weight:900;color:#1f2937;margin-bottom:6px">처음 오셨군요!</div>
-      <div style="font-size:14px;color:#6b7280;line-height:1.6">
-        간단한 정보를 입력하면 AI가<br>나만의 진로 포트폴리오를 만들어드려요
+    <button onclick="renderStudentOnboarding()"
+      style="background:none;border:none;cursor:pointer;color:#9ca3af;font-size:13px;
+        margin-bottom:16px;display:flex;align-items:center;gap:4px;padding:4px 0">
+      ← 입력 방식 다시 선택
+    </button>
+
+    <div style="text-align:center;margin-bottom:24px" class="stu-animate">
+      <div style="font-size:40px;margin-bottom:8px">🤖</div>
+      <div style="font-size:20px;font-weight:900;color:#1f2937;margin-bottom:5px">AI와 대화로 입력해요</div>
+      <div style="font-size:13px;color:#6b7280;line-height:1.6">
+        질문에 답하다 보면 자연스럽게 완성돼요 😊
       </div>
-      <!-- 단계 표시 -->
-      <div style="display:flex;justify-content:center;gap:8px;margin-top:20px" id="onb-steps">
+      <div style="display:flex;justify-content:center;gap:8px;margin-top:18px" id="onb-steps">
         ${[1,2,3,4,5].map(n => `
           <div id="onb-dot-${n}"
             style="width:28px;height:28px;border-radius:50%;display:flex;align-items:center;
@@ -51,14 +147,10 @@ function renderStudentOnboarding() {
       </div>
     </div>
 
-    <!-- 대화 흐름 영역 -->
     <div id="onb-chat" style="display:flex;flex-direction:column;gap:16px"></div>
-
-    <!-- 현재 입력 폼 -->
     <div id="onb-form" style="margin-top:16px"></div>
   </div>`;
 
-  // 1단계 시작
   setTimeout(() => onbNextStep(), 300);
 }
 
@@ -329,13 +421,633 @@ function selectCareerGoal(val, btn) {
 }
 
 /* ==========================================================
+   온보딩 — 직접 입력 (3단계 폼)
+   ========================================================== */
+
+const ONB_DIRECT = {
+  step: 1,
+  data: {},
+  jobFile: '',
+  psychFile: '',
+};
+
+function renderOnbDirect(step) {
+  ONB_DIRECT.step = step;
+  const stepLabels = ['기본정보', '심리·건강', '진단검사'];
+  const stepEmojis = ['👤', '💙', '🔬'];
+
+  document.getElementById('app-content').innerHTML = `
+  <div style="max-width:520px;margin:0 auto;padding:24px 20px">
+
+    <!-- 헤더 -->
+    <div class="stu-animate" style="margin-bottom:20px">
+      <button onclick="renderStudentOnboarding()"
+        style="background:none;border:none;cursor:pointer;color:#9ca3af;font-size:13px;
+          padding:4px 0;margin-bottom:14px;display:flex;align-items:center;gap:4px">
+        ← 입력 방식 다시 선택
+      </button>
+      <div style="background:linear-gradient(135deg,#fdf4ff,#fce7f3);border-radius:16px;
+        padding:16px 20px;border:1.5px solid #e9d5ff;
+        display:flex;align-items:center;justify-content:space-between">
+        <div>
+          <div style="font-size:11px;color:#9ca3af;margin-bottom:4px;font-weight:700">직접 입력 — ${step}/3단계</div>
+          <div style="font-size:17px;font-weight:900;color:#7c3aed">
+            ${stepEmojis[step - 1]} ${stepLabels[step - 1]}
+          </div>
+        </div>
+        <div style="display:flex;gap:6px;align-items:center">
+          ${[1, 2, 3].map(n => `
+            <div style="width:${n === step ? '24px' : '10px'};height:10px;border-radius:999px;
+              background:${n <= step ? '#7c3aed' : '#e5e7eb'};transition:all .3s"></div>`).join('')}
+        </div>
+      </div>
+    </div>
+
+    <!-- 폼 영역 -->
+    <div id="onb-direct-form" class="stu-animate stu-animate-delay-1">
+      ${step === 1 ? onbDirectStep1() : step === 2 ? onbDirectStep2() : onbDirectStep3()}
+    </div>
+  </div>`;
+}
+
+/* ---- 1단계: 기본정보 ---- */
+function onbDirectStep1() {
+  const ic  = INITIAL_CONSULTATIONS['stu-001'];
+  const stu = USERS.student;
+  const curGoal = ONB_DIRECT.data._goalSelected || ic?.careerGoal || '';
+
+  return `
+    <div style="background:#fff;border-radius:18px;padding:22px 20px;
+      box-shadow:0 2px 16px rgba(124,58,237,.1);border:1.5px solid #f3e8ff">
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px">
+        <div>
+          <label style="font-size:12px;font-weight:700;color:#7c3aed;display:block;margin-bottom:6px">학과</label>
+          <select id="dir-dept"
+            style="width:100%;border:1.5px solid #e9d5ff;border-radius:10px;padding:10px 12px;font-size:14px;color:#374151">
+            <option value="">선택하세요</option>
+            ${['AI소프트웨어학과','경영학과','전기전자공학과','심리학과','디자인학과','간호학과','기타'].map(d =>
+              `<option value="${d}" ${(ONB_DIRECT.data.department||stu?.department)===d?'selected':''}>${d}</option>`
+            ).join('')}
+          </select>
+        </div>
+        <div>
+          <label style="font-size:12px;font-weight:700;color:#7c3aed;display:block;margin-bottom:6px">학년</label>
+          <select id="dir-grade"
+            style="width:100%;border:1.5px solid #e9d5ff;border-radius:10px;padding:10px 12px;font-size:14px;color:#374151">
+            <option value="">선택하세요</option>
+            ${[1,2,3,4].map(g =>
+              `<option value="${g}" ${(ONB_DIRECT.data.grade||stu?.grade)==g?'selected':''}>${g}학년</option>`
+            ).join('')}
+          </select>
+        </div>
+      </div>
+
+      <div style="margin-bottom:14px">
+        <label style="font-size:12px;font-weight:700;color:#7c3aed;display:block;margin-bottom:6px">이름</label>
+        <input id="dir-name" type="text" placeholder="이름을 입력하세요"
+          value="${esc(ONB_DIRECT.data.name || stu?.name || '')}"
+          style="width:100%;border:1.5px solid #e9d5ff;border-radius:10px;padding:10px 14px;font-size:14px;color:#374151">
+      </div>
+
+      <div style="margin-bottom:14px">
+        <label style="font-size:12px;font-weight:700;color:#7c3aed;display:block;margin-bottom:8px">진로 목표</label>
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          ${[['💼','취업'],['🎓','진학'],['🚀','창업'],['🌀','기타']].map(([ico, val]) => `
+            <button onclick="onbDirSelectGoal('${val}',this)"
+              data-dirgoal="${val}"
+              style="padding:9px 18px;border:2px solid ${curGoal===val?'#7c3aed':'#e9d5ff'};
+                border-radius:999px;font-size:13px;font-weight:700;cursor:pointer;
+                background:${curGoal===val?'#f5f3ff':'#fff'};
+                color:${curGoal===val?'#7c3aed':'#374151'};transition:all .15s">
+              ${ico} ${val}
+            </button>`).join('')}
+        </div>
+      </div>
+
+      <div style="margin-bottom:22px">
+        <label style="font-size:12px;font-weight:700;color:#7c3aed;display:block;margin-bottom:6px">희망 직무</label>
+        <input id="dir-job" type="text" placeholder="예: 데이터 분석가, UX 디자이너, 공무원..."
+          value="${esc(ONB_DIRECT.data.desiredJob || stu?.desiredJob || '')}"
+          style="width:100%;border:1.5px solid #e9d5ff;border-radius:10px;padding:10px 14px;font-size:14px;color:#374151"
+          onkeydown="if(event.key==='Enter') onbDirectNext(1)">
+      </div>
+
+      <button onclick="onbDirectNext(1)"
+        style="width:100%;background:linear-gradient(135deg,#7c3aed,#a855f7);color:#fff;border:none;
+          border-radius:12px;padding:14px;font-size:15px;font-weight:800;cursor:pointer;
+          box-shadow:0 4px 14px rgba(124,58,237,.35)">
+        다음 단계 → 심리·건강
+      </button>
+    </div>`;
+}
+
+/* ---- 2단계: 심리·건강 ---- */
+function onbDirectStep2() {
+  const d = ONB_DIRECT.data;
+  return `
+    <div style="background:#fff;border-radius:18px;padding:22px 20px;
+      box-shadow:0 2px 16px rgba(124,58,237,.1);border:1.5px solid #f3e8ff">
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px">
+        <div>
+          <label style="font-size:12px;font-weight:700;color:#7c3aed;display:block;margin-bottom:6px">🏃 건강 상태</label>
+          <select id="dir-health"
+            style="width:100%;border:1.5px solid #e9d5ff;border-radius:10px;padding:10px 12px;font-size:14px">
+            <option value="">선택하세요</option>
+            ${['매우 좋음','좋음','보통','좋지 않음'].map(v =>
+              `<option value="${v}" ${d.health===v?'selected':''}>${v}</option>`).join('')}
+          </select>
+        </div>
+        <div>
+          <label style="font-size:12px;font-weight:700;color:#7c3aed;display:block;margin-bottom:6px">💙 심리 상태</label>
+          <select id="dir-psych"
+            style="width:100%;border:1.5px solid #e9d5ff;border-radius:10px;padding:10px 12px;font-size:14px">
+            <option value="">선택하세요</option>
+            ${['안정적','약간 불안','많이 불안','무기력'].map(v =>
+              `<option value="${v}" ${d.psych===v?'selected':''}>${v}</option>`).join('')}
+          </select>
+        </div>
+        <div>
+          <label style="font-size:12px;font-weight:700;color:#7c3aed;display:block;margin-bottom:6px">⏰ 생활 패턴</label>
+          <select id="dir-life"
+            style="width:100%;border:1.5px solid #e9d5ff;border-radius:10px;padding:10px 12px;font-size:14px">
+            <option value="">선택하세요</option>
+            ${['규칙적','보통','불규칙'].map(v =>
+              `<option value="${v}" ${d.lifePattern===v?'selected':''}>${v}</option>`).join('')}
+          </select>
+        </div>
+        <div>
+          <label style="font-size:12px;font-weight:700;color:#7c3aed;display:block;margin-bottom:6px">🎯 진로 확신도</label>
+          <select id="dir-career-conf"
+            style="width:100%;border:1.5px solid #e9d5ff;border-radius:10px;padding:10px 12px;font-size:14px">
+            <option value="">선택하세요</option>
+            ${['매우 낮음','낮음','보통','높음','매우 높음'].map(v =>
+              `<option value="${v}" ${d.careerConf===v?'selected':''}>${v}</option>`).join('')}
+          </select>
+        </div>
+      </div>
+
+      <div style="background:#fdf4ff;border-radius:12px;padding:12px 14px;
+        font-size:13px;color:#7c3aed;line-height:1.7;margin-bottom:20px;border:1px solid #f3e8ff">
+        💡 솔직하게 입력할수록 AI 추천이 정확해져요.<br>상담사 선생님께만 공유돼요 🔒
+      </div>
+
+      <div style="display:flex;gap:10px">
+        <button onclick="renderOnbDirect(1)"
+          style="flex:1;background:#f5f3ff;color:#7c3aed;border:none;
+            border-radius:12px;padding:13px;font-size:14px;font-weight:700;cursor:pointer">
+          ← 이전
+        </button>
+        <button onclick="onbDirectNext(2)"
+          style="flex:2;background:linear-gradient(135deg,#7c3aed,#a855f7);color:#fff;border:none;
+            border-radius:12px;padding:13px;font-size:15px;font-weight:800;cursor:pointer;
+            box-shadow:0 4px 14px rgba(124,58,237,.35)">
+          다음 단계 → 진단검사
+        </button>
+      </div>
+    </div>`;
+}
+
+/* ---- 3단계: 진단검사 ---- */
+function onbDirectStep3() {
+  const curMbti = ONB_DIRECT.data.mbti || INITIAL_CONSULTATIONS['stu-001']?.mbti || '';
+
+  return `
+    <div style="background:#fff;border-radius:18px;padding:22px 20px;
+      box-shadow:0 2px 16px rgba(124,58,237,.1);border:1.5px solid #f3e8ff">
+
+      <!-- MBTI -->
+      <div style="margin-bottom:18px">
+        <label style="font-size:12px;font-weight:700;color:#7c3aed;display:block;margin-bottom:8px">
+          🧠 MBTI 코드 (선택)
+        </label>
+        <div style="display:flex;gap:8px;align-items:center;margin-bottom:10px">
+          <input id="dir-mbti" type="text" maxlength="4"
+            placeholder="예: ISTJ"
+            value="${esc(curMbti)}"
+            style="flex:1;border:1.5px solid #e9d5ff;border-radius:10px;padding:11px 14px;
+              font-size:22px;font-weight:900;text-align:center;letter-spacing:6px;
+              color:#7c3aed;text-transform:uppercase"
+            oninput="this.value=this.value.toUpperCase()">
+        </div>
+        <div style="display:flex;flex-wrap:wrap;gap:5px">
+          ${['ISTJ','ISFJ','INFJ','INTJ','ISTP','ISFP','INFP','INTP',
+             'ESTP','ESFP','ENFP','ENTP','ESTJ','ESFJ','ENFJ','ENTJ'].map(m => `
+            <button onclick="document.getElementById('dir-mbti').value='${m}'"
+              style="padding:4px 9px;border:1px solid #e9d5ff;border-radius:7px;
+                font-size:11px;font-weight:700;cursor:pointer;background:#faf5ff;color:#7c3aed;
+                transition:background .1s"
+              onmouseover="this.style.background='#e9d5ff'"
+              onmouseout="this.style.background='#faf5ff'">
+              ${m}
+            </button>`).join('')}
+        </div>
+      </div>
+
+      <!-- 직업선호도검사 업로드 -->
+      <div style="margin-bottom:14px">
+        <label style="font-size:12px;font-weight:700;color:#7c3aed;display:block;margin-bottom:8px">
+          💼 직업선호도검사 결과지 <span style="color:#9ca3af;font-weight:400">(선택)</span>
+        </label>
+        <div onclick="document.getElementById('dir-job-file').click()"
+          style="border:2px dashed ${ONB_DIRECT.jobFile?'#7c3aed':'#e9d5ff'};border-radius:12px;
+            padding:16px;text-align:center;cursor:pointer;
+            background:${ONB_DIRECT.jobFile?'#f5f3ff':'#faf5ff'};transition:all .2s"
+          ondragover="event.preventDefault();this.style.borderColor='#7c3aed'"
+          ondragleave="this.style.borderColor='${ONB_DIRECT.jobFile?'#7c3aed':'#e9d5ff'}'">
+          ${ONB_DIRECT.jobFile
+            ? `<div style="font-size:14px;font-weight:700;color:#7c3aed">📄 ${esc(ONB_DIRECT.jobFile)}</div>
+               <div style="font-size:11px;color:#9ca3af;margin-top:3px">변경하려면 클릭</div>`
+            : `<div style="font-size:18px;margin-bottom:4px">📊</div>
+               <div style="font-size:13px;font-weight:700;color:#7c3aed;margin-bottom:2px">파일 업로드</div>
+               <div style="font-size:11px;color:#9ca3af">워크넷·커리어넷 결과지 PDF/이미지</div>`}
+          <input type="file" id="dir-job-file" style="display:none" accept=".pdf,.jpg,.jpeg,.png"
+            onchange="onbDirFileUpload(this,'job')">
+        </div>
+      </div>
+
+      <!-- 성격·심리검사 업로드 -->
+      <div style="margin-bottom:18px">
+        <label style="font-size:12px;font-weight:700;color:#7c3aed;display:block;margin-bottom:8px">
+          💙 성격·심리검사 결과지 <span style="color:#9ca3af;font-weight:400">(선택)</span>
+        </label>
+        <div onclick="document.getElementById('dir-psych-file').click()"
+          style="border:2px dashed ${ONB_DIRECT.psychFile?'#7c3aed':'#e9d5ff'};border-radius:12px;
+            padding:16px;text-align:center;cursor:pointer;
+            background:${ONB_DIRECT.psychFile?'#f5f3ff':'#faf5ff'};transition:all .2s"
+          ondragover="event.preventDefault();this.style.borderColor='#7c3aed'"
+          ondragleave="this.style.borderColor='${ONB_DIRECT.psychFile?'#7c3aed':'#e9d5ff'}'">
+          ${ONB_DIRECT.psychFile
+            ? `<div style="font-size:14px;font-weight:700;color:#7c3aed">📄 ${esc(ONB_DIRECT.psychFile)}</div>
+               <div style="font-size:11px;color:#9ca3af;margin-top:3px">변경하려면 클릭</div>`
+            : `<div style="font-size:18px;margin-bottom:4px">💙</div>
+               <div style="font-size:13px;font-weight:700;color:#7c3aed;margin-bottom:2px">파일 업로드</div>
+               <div style="font-size:11px;color:#9ca3af">성격검사, MMPI, PAI, SCT 등 결과지</div>`}
+          <input type="file" id="dir-psych-file" style="display:none" accept=".pdf,.jpg,.jpeg,.png"
+            onchange="onbDirFileUpload(this,'psych')">
+        </div>
+      </div>
+
+      <div style="background:#fdf4ff;border-radius:10px;padding:10px 14px;
+        font-size:12px;color:#9ca3af;margin-bottom:18px;border:1px solid #f3e8ff;line-height:1.6">
+        ℹ️ 검사 파일이 없으면 건너뛰어도 돼요. 나중에 진단검사 메뉴에서 추가할 수 있어요.
+      </div>
+
+      <div style="display:flex;gap:10px">
+        <button onclick="renderOnbDirect(2)"
+          style="flex:1;background:#f5f3ff;color:#7c3aed;border:none;
+            border-radius:12px;padding:13px;font-size:14px;font-weight:700;cursor:pointer">
+          ← 이전
+        </button>
+        <button onclick="onbDirectFinish()"
+          style="flex:2;background:linear-gradient(135deg,#7c3aed,#ec4899);color:#fff;border:none;
+            border-radius:12px;padding:13px;font-size:15px;font-weight:800;cursor:pointer;
+            box-shadow:0 4px 16px rgba(124,58,237,.4)">
+          🤖 AI 분석하기 →
+        </button>
+      </div>
+    </div>`;
+}
+
+/* ---- 다음 단계 이동 + 유효성 검사 ---- */
+function onbDirectNext(step) {
+  if (step === 1) {
+    const dept  = document.getElementById('dir-dept')?.value;
+    const grade = document.getElementById('dir-grade')?.value;
+    const name  = document.getElementById('dir-name')?.value.trim();
+    const job   = document.getElementById('dir-job')?.value.trim();
+    if (!dept)  { showToast('학과를 선택해주세요.', 'error'); return; }
+    if (!grade) { showToast('학년을 선택해주세요.', 'error'); return; }
+    if (!ONB_DIRECT.data._goalSelected) { showToast('진로 목표를 선택해주세요.', 'error'); return; }
+    ONB_DIRECT.data.department = dept;
+    ONB_DIRECT.data.grade      = grade;
+    ONB_DIRECT.data.name       = name || USERS.student.name;
+    ONB_DIRECT.data.careerGoal = ONB_DIRECT.data._goalSelected;
+    ONB_DIRECT.data.desiredJob = job || '미정';
+    renderOnbDirect(2);
+  } else if (step === 2) {
+    const health = document.getElementById('dir-health')?.value;
+    const psych  = document.getElementById('dir-psych')?.value;
+    const life   = document.getElementById('dir-life')?.value;
+    const conf   = document.getElementById('dir-career-conf')?.value;
+    if (!health || !psych || !life || !conf) {
+      showToast('모든 항목을 선택해주세요.', 'error'); return;
+    }
+    ONB_DIRECT.data.health      = health;
+    ONB_DIRECT.data.psych       = psych;
+    ONB_DIRECT.data.lifePattern = life;
+    ONB_DIRECT.data.careerConf  = conf;
+    renderOnbDirect(3);
+  }
+}
+
+/* ---- 파일 업로드 처리 ---- */
+function onbDirFileUpload(input, type) {
+  if (!input.files.length) return;
+  const name = input.files[0].name;
+  if (type === 'job') ONB_DIRECT.jobFile   = name;
+  else                ONB_DIRECT.psychFile = name;
+  showToast(`"${name}" 파일이 선택되었습니다.`, 'info');
+  renderOnbDirect(3);
+}
+
+/* ---- 목표 버튼 선택 토글 ---- */
+function onbDirSelectGoal(val, btn) {
+  document.querySelectorAll('[data-dirgoal]').forEach(b => {
+    b.style.borderColor = '#e9d5ff'; b.style.background = '#fff'; b.style.color = '#374151';
+  });
+  btn.style.borderColor = '#7c3aed';
+  btn.style.background  = '#f5f3ff';
+  btn.style.color       = '#7c3aed';
+  ONB_DIRECT.data._goalSelected = val;
+}
+
+/* ---- 완료: 데이터 반영 + AI 분석 로딩 ---- */
+function onbDirectFinish() {
+  // MBTI 저장
+  const mbtiVal = (document.getElementById('dir-mbti')?.value || '').toUpperCase().trim();
+  if (mbtiVal && /^[EI][SN][TF][JP]$/.test(mbtiVal)) {
+    ONB_DIRECT.data.mbti = mbtiVal;
+    const ic = INITIAL_CONSULTATIONS['stu-001'];
+    if (ic) ic.mbti = mbtiVal;
+    StuDiag.mbtiResult = mbtiVal;
+  }
+
+  // 사용자 데이터 반영
+  const stu = USERS.student;
+  if (ONB_DIRECT.data.department)  stu.department   = ONB_DIRECT.data.department;
+  if (ONB_DIRECT.data.grade)       stu.grade        = parseInt(ONB_DIRECT.data.grade);
+  if (ONB_DIRECT.data.name)        stu.name         = ONB_DIRECT.data.name;
+  if (ONB_DIRECT.data.desiredJob)  stu.desiredJob   = ONB_DIRECT.data.desiredJob;
+  if (ONB_DIRECT.data.careerGoal) {
+    const ic = INITIAL_CONSULTATIONS['stu-001'];
+    if (ic) { ic.careerGoal = ONB_DIRECT.data.careerGoal; }
+  }
+  if (ONB_DIRECT.jobFile)   StuDiag.jobFile   = ONB_DIRECT.jobFile;
+  if (ONB_DIRECT.psychFile) StuDiag.psychFile = ONB_DIRECT.psychFile;
+  State.stuOnboardingDone = true;
+
+  // AI 분석 로딩 화면
+  document.getElementById('app-content').innerHTML = `
+    <div style="max-width:520px;margin:0 auto;padding:60px 20px;text-align:center">
+      <div class="stu-animate">
+        <div style="font-size:64px;margin-bottom:16px">🤖</div>
+        <div style="font-size:20px;font-weight:900;color:#1f2937;margin-bottom:8px">
+          AI가 분석하고 있어요!
+        </div>
+        <div style="font-size:14px;color:#6b7280;margin-bottom:28px;line-height:1.7">
+          입력한 정보를 바탕으로<br>나만의 진로 포트폴리오를 준비 중이에요 ✨
+        </div>
+        <div style="display:flex;justify-content:center;gap:6px;margin-bottom:28px">
+          ${[0, 200, 400].map(delay =>
+            `<div style="width:12px;height:12px;border-radius:50%;
+              background:linear-gradient(135deg,#7c3aed,#ec4899);
+              animation:bounce .8s ease-in-out ${delay}ms infinite alternate"></div>`
+          ).join('')}
+        </div>
+        <div style="background:linear-gradient(135deg,#fdf4ff,#fce7f3);border-radius:16px;
+          padding:18px 20px;border:1.5px solid #e9d5ff;
+          font-size:13px;color:#7c3aed;line-height:2;text-align:left">
+          ✅ 기본정보 저장 완료<br>
+          ✅ 심리·건강 정보 분석 완료<br>
+          ${ONB_DIRECT.jobFile  ? `✅ 직업선호도검사 파일 수신<br>` : ''}
+          ${ONB_DIRECT.psychFile? `✅ 성격·심리검사 파일 수신<br>` : ''}
+          <span style="color:#a78bfa">🔄 진로 포트폴리오 생성 중...</span>
+        </div>
+      </div>
+    </div>`;
+
+  setTimeout(() => navigate('stu-home'), 2800);
+}
+
+/* ==========================================================
    1. 학생 메인 홈
    ========================================================== */
+/* ==========================================================
+   홈 화면 — 종합 분석 요약 카드
+   ========================================================== */
+function stuHomeSummaryCard(ic, diagData, port) {
+  const mbti        = ic?.mbti || 'ISTJ';
+  const hollandCode = StuDiag.jobResult ? 'RI' : 'RI'; // 직업선호도 분석 완료 시 동적 적용
+  const hollandName = HOLLAND_DB[hollandCode]?.name || '현실형–탐구형';
+
+  /* ── 유형 한줄 요약 ── */
+  const TYPE_LABELS = {
+    'ISTJ+RI': { tag:'체계적이고 꼼꼼한 데이터 탐구가형',   desc:'원칙과 분석력을 무기로 정확한 결과를 만들어요' },
+    'INTJ+RI': { tag:'전략적인 데이터 설계자형',             desc:'큰 그림과 기술력으로 혁신적인 솔루션을 만들어요' },
+    'INTP+RI': { tag:'논리적인 기술 탐구가형',               desc:'아이디어와 데이터로 새로운 가능성을 발견해요' },
+    'ISTP+RI': { tag:'실용적인 기술 문제해결사형',           desc:'손으로 직접 데이터를 다루며 결과를 만들어요' },
+    'ENTJ+EC': { tag:'목표 지향적인 전략 리더형',            desc:'체계적인 계획과 추진력으로 팀을 이끌어요' },
+    'ENFP+SA': { tag:'창의적이고 따뜻한 콘텐츠 기획가형',   desc:'감성과 아이디어로 사람들을 연결해요' },
+    'ESTJ+CS': { tag:'체계적이고 믿음직한 관리 전문가형',   desc:'정확성과 조직력으로 모든 일을 완성해요' },
+    'ENFJ+SE': { tag:'사람을 이끄는 따뜻한 리더형',         desc:'공감 능력과 리더십으로 팀에 활력을 불어넣어요' },
+    'INFP+IA': { tag:'감성적인 창의 탐구가형',              desc:'깊은 공감과 창의성으로 의미 있는 작업을 해요' },
+  };
+  const typeKey  = `${mbti}+${hollandCode}`;
+  const typeInfo = TYPE_LABELS[typeKey] || {
+    tag:  `${mbti} + ${hollandCode}형 분석가`,
+    desc: '논리적 사고와 기술 역량을 겸비한 강점 있는 유형이에요',
+  };
+
+  /* ── 핵심 강점 ── */
+  let topStrengths = [
+    { icon:'⭐', label:'성실함' },
+    { icon:'🛡️', label:'책임감' },
+    { icon:'📚', label:'학업 역량' },
+  ];
+  if (diagData) {
+    const pool = [
+      { icon:'⭐', label:'성실함',    val: diagData.psychTest.sincerity },
+      { icon:'🛡️', label:'책임감',    val: diagData.psychTest.responsibility },
+      { icon:'🎯', label:'목표의식',  val: diagData.psychTest.goalOrientation },
+      { icon:'📚', label:'학업 역량', val: diagData.lifeHistory.academics },
+      { icon:'🦅', label:'독립심',    val: diagData.lifeHistory.independence },
+      { icon:'🔥', label:'도전 의지', val: diagData.lifeHistory.ambition },
+      { icon:'🌈', label:'열린 마음', val: diagData.psychTest.receptivity },
+    ];
+    topStrengths = pool.sort((a, b) => b.val - a.val).slice(0, 3);
+  }
+
+  /* ── 추천 진로 3가지 (Holland DB 기반) ── */
+  const careers = (HOLLAND_DB[hollandCode]?.jobs || []).slice(0, 3);
+  const CAREER_DETAIL = {
+    '소프트웨어 엔지니어':   'Python·Java 등으로 시스템·앱을 직접 만들어요. 코딩 실력이 핵심 경쟁력이에요.',
+    '데이터 과학자':         '통계·ML로 데이터에서 인사이트를 발굴해요. 분석력과 Python이 기본 무기예요.',
+    '데이터 분석가':         '숫자로 비즈니스 의사결정을 돕는 직업이에요. ADsP·SQLD 자격증이 첫 목표예요!',
+    'AI 엔지니어':           'AI 모델을 개발·배포하는 직업이에요. 딥러닝과 Python 실력이 핵심이에요.',
+    '데이터 사이언티스트':   '복잡한 데이터에서 가치를 발굴해요. 분석·통계·프로그래밍을 모두 활용해요.',
+    'IT 시스템 전문가':      '서버·네트워크·보안을 관리해요. 꼼꼼함과 기술 이해가 강점인 직종이에요.',
+    '기계공학자':            '기계·설비 설계 및 제작을 담당해요. 이공계 전문 지식이 핵심이에요.',
+    '환경공학자':            '환경 문제를 기술로 해결하는 직업이에요. 이공계 역량과 가치관이 중요해요.',
+    '상담사':                '사람들의 마음을 돕는 직업이에요. 공감 능력과 전문 자격증이 필요해요.',
+    '작가':                  '글로 생각을 전달하는 직업이에요. 꾸준한 글쓰기 연습이 경력의 시작이에요.',
+    '교수':                  '대학에서 연구·교육을 담당해요. 석·박사 학위와 연구 실적이 필요해요.',
+  };
+
+  /* ── 현재 진로 단계 ── */
+  const stages   = ['진로 탐색', '진로 설정', '취업 준비', '완료'];
+  const stageMap = { '진로탐색': 0, '진로설정': 1, '취업준비': 2, '완료': 3 };
+  const curStage = stageMap[port?.currentStage] ?? 0;
+
+  /* ── 이번 달 추천 액션 ── */
+  const actions = [
+    'ADsP 자격증 시험 접수하기 (5월 시험 마감 임박! 🔥)',
+    'GitHub 포트폴리오 첫 번째 레포지토리 만들기 💻',
+  ];
+
+  return `
+  <div class="stu-animate" style="margin:0 16px 20px">
+    <div style="background:linear-gradient(160deg,#312e81 0%,#4f46e5 45%,#7c3aed 100%);
+      border-radius:22px;overflow:hidden;box-shadow:0 8px 32px rgba(79,70,229,.38)">
+
+      <!-- ① 나의 유형 한줄 요약 -->
+      <div style="padding:22px 20px 18px;text-align:center;
+        border-bottom:1px solid rgba(255,255,255,.12)">
+        <div style="font-size:11px;font-weight:800;color:rgba(255,255,255,.45);
+          letter-spacing:3px;margin-bottom:12px">🤖 AI 종합 분석 요약</div>
+        <div style="display:inline-flex;align-items:center;gap:10px;
+          background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.2);
+          border-radius:999px;padding:7px 20px;margin-bottom:14px">
+          <span style="font-size:17px;font-weight:900;color:#a5b4fc;letter-spacing:3px">${mbti}</span>
+          <span style="color:rgba(255,255,255,.35);font-size:16px">+</span>
+          <span style="font-size:17px;font-weight:900;color:#c4b5fd;letter-spacing:3px">${hollandCode}형</span>
+        </div>
+        <div style="font-size:17px;font-weight:900;color:#fff;margin-bottom:7px;line-height:1.4">
+          ${typeInfo.tag}
+        </div>
+        <div style="font-size:13px;color:rgba(255,255,255,.68);line-height:1.6">
+          ${typeInfo.desc}
+        </div>
+      </div>
+
+      <!-- ② 핵심 강점 3가지 -->
+      <div style="padding:16px 20px;border-bottom:1px solid rgba(255,255,255,.12)">
+        <div style="font-size:11px;font-weight:800;color:rgba(255,255,255,.5);
+          letter-spacing:2px;margin-bottom:11px">✨ 핵심 강점</div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          ${topStrengths.map(s => `
+            <div style="background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.22);
+              border-radius:12px;padding:9px 16px;display:flex;align-items:center;gap:7px">
+              <span style="font-size:20px">${s.icon}</span>
+              <span style="font-size:14px;font-weight:800;color:#fff">${s.label}</span>
+            </div>`).join('')}
+        </div>
+      </div>
+
+      <!-- 하단 흰 배경 섹션 -->
+      <div style="background:#fff;border-radius:0 0 22px 22px">
+
+        <!-- ③ 추천 진로 방향 -->
+        <div style="padding:16px 20px;border-bottom:1px solid #f0f0f8">
+          <div style="font-size:12px;font-weight:800;color:#4f46e5;
+            letter-spacing:1px;margin-bottom:12px">💼 추천 진로 방향</div>
+          <div style="display:flex;flex-direction:column;gap:7px">
+            ${careers.map((job, i) => {
+              const detail = CAREER_DETAIL[job] || `${hollandCode}형 흥미코드에 잘 맞는 직업이에요. 전공 역량을 살릴 수 있어요!`;
+              const colors = ['#4f46e5', '#7c3aed', '#0891b2'];
+              const bgs    = ['#f5f3ff', '#faf5ff', '#ecfeff'];
+              return `
+                <div>
+                  <div onclick="const d=this.nextElementSibling;d.style.display=d.style.display==='block'?'none':'block'"
+                    style="display:flex;align-items:center;gap:10px;padding:10px 14px;
+                      background:${bgs[i]};border-radius:12px;cursor:pointer;
+                      border:1.5px solid ${colors[i]}22;transition:background .15s"
+                    onmouseover="this.style.background='${colors[i]}14'"
+                    onmouseout="this.style.background='${bgs[i]}'">
+                    <div style="width:24px;height:24px;border-radius:50%;background:${colors[i]};
+                      display:flex;align-items:center;justify-content:center;
+                      font-size:11px;font-weight:900;color:#fff;flex-shrink:0">${i + 1}</div>
+                    <span style="flex:1;font-size:14px;font-weight:700;color:#1f2937">${job}</span>
+                    <span style="font-size:12px;color:${colors[i]};font-weight:700">자세히 ▾</span>
+                  </div>
+                  <div style="display:none;padding:10px 14px 12px;margin-top:-4px;
+                    background:${colors[i]}08;border:1.5px solid ${colors[i]}18;
+                    border-top:none;border-radius:0 0 12px 12px;
+                    font-size:13px;color:#4b5563;line-height:1.7">
+                    ${detail}
+                  </div>
+                </div>`;
+            }).join('')}
+          </div>
+        </div>
+
+        <!-- ④ 현재 진로 단계 -->
+        <div style="padding:16px 20px;border-bottom:1px solid #f0f0f8">
+          <div style="font-size:12px;font-weight:800;color:#4f46e5;
+            letter-spacing:1px;margin-bottom:14px">🗺️ 현재 진로 단계</div>
+          <div style="display:flex;align-items:flex-start">
+            ${stages.map((s, i) => {
+              const isActive = i === curStage;
+              const isDone   = i < curStage;
+              const isLast   = i === stages.length - 1;
+              return `
+                <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:5px">
+                  <div style="width:30px;height:30px;border-radius:50%;
+                    display:flex;align-items:center;justify-content:center;
+                    font-size:${isDone ? '14px' : '11px'};font-weight:900;
+                    ${isActive
+                      ? 'background:#4f46e5;color:#fff;box-shadow:0 0 0 4px #c7d2fe'
+                      : isDone
+                        ? 'background:#4f46e5;color:#fff'
+                        : 'background:#f3f4f6;color:#9ca3af'}">
+                    ${isDone ? '✓' : i + 1}
+                  </div>
+                  <div style="font-size:10px;font-weight:${isActive ? '900' : '600'};
+                    color:${isActive ? '#4f46e5' : isDone ? '#6366f1' : '#9ca3af'};
+                    text-align:center;white-space:nowrap">
+                    ${s}${isActive ? ' 🔵' : ''}
+                  </div>
+                </div>
+                ${!isLast ? `<div style="flex:0 0 16px;height:2px;
+                  background:${i < curStage ? '#4f46e5' : '#e5e7eb'};
+                  margin-top:14px;flex-shrink:0"></div>` : ''}`;
+            }).join('')}
+          </div>
+        </div>
+
+        <!-- ⑤ 이번 달 추천 액션 -->
+        <div style="padding:16px 20px 20px">
+          <div style="font-size:12px;font-weight:800;color:#d97706;
+            letter-spacing:1px;margin-bottom:12px">📋 이번 달 추천 액션</div>
+          ${actions.map(a => `
+            <div onclick="
+              const box=this.querySelector('.act-box');
+              const txt=this.querySelector('.act-txt');
+              const done=box.dataset.done==='1';
+              box.dataset.done=done?'0':'1';
+              box.innerHTML=done?'':'✓';
+              box.style.background=done?'#fffbeb':'#fef3c7';
+              box.style.borderColor=done?'#fde68a':'#d97706';
+              txt.style.textDecoration=done?'none':'line-through';
+              txt.style.color=done?'#374151':'#9ca3af';"
+              style="display:flex;align-items:flex-start;gap:10px;padding:9px 0;
+                border-bottom:1px solid #fef9ec;cursor:pointer">
+              <div class="act-box" data-done="0"
+                style="width:22px;height:22px;border:2px solid #fde68a;border-radius:6px;
+                  background:#fffbeb;display:flex;align-items:center;justify-content:center;
+                  font-size:12px;font-weight:900;color:#d97706;flex-shrink:0;margin-top:1px;
+                  transition:all .15s"></div>
+              <span class="act-txt" style="font-size:13px;font-weight:600;
+                color:#374151;line-height:1.6;transition:all .15s">${a}</span>
+            </div>`).join('')}
+          <div style="font-size:11px;color:#9ca3af;text-align:center;margin-top:10px">
+            터치하면 완료 처리돼요 ✅
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>`;
+}
+
 function renderStudentHome() {
-  const stu  = USERS.student;
-  const diag = (DIAGNOSES['stu-001'] || []);
-  const port = (PORTFOLIOS['stu-001'] || [])[0];
-  const emp  = EMPLOYMENT_STATUS['stu-001'];
+  const stu      = USERS.student;
+  const diag     = (DIAGNOSES['stu-001'] || []);
+  const port     = (PORTFOLIOS['stu-001'] || [])[0];
+  const emp      = EMPLOYMENT_STATUS['stu-001'];
+  const ic       = INITIAL_CONSULTATIONS['stu-001'];
+  const diagData = diag.find(x => x.psychTest) || null;
 
   const cards = [
     {
@@ -398,6 +1110,8 @@ function renderStudentHome() {
         <span class="stu-hero-chip">${stu.department.substring(0,4)}</span>
       </div>
     </div>
+
+    ${stuHomeSummaryCard(ic, diagData, port)}
 
     <!-- AI 챗봇 상담 CTA 배너 -->
     <div onclick="navigate('stu-chat')"
@@ -2025,10 +2739,94 @@ function planRenderAiResult() {
 }
 
 /* ==========================================================
-   5. 포트폴리오 (성장 스토리)
+   5. 포트폴리오 (성장 스토리 + AI 종합 분석 + PDF 출력)
    ========================================================== */
+
+/* --- AI 분석 상태 --- */
+const PORT_AI = { shown: false };
+
+/* --- AI 종합 분석 샘플 데이터 --- */
+const PORT_AI_DATA = {
+  self: {
+    strengths: [
+      { icon: '⭐', label: '성실함·책임감', desc: '꾸준히 과제를 완수하고 약속을 지키는 신뢰할 수 있는 사람이에요. 팀 프로젝트에서 특히 빛나요.' },
+      { icon: '🔍', label: '분석적 사고', desc: '데이터와 수치를 꼼꼼하게 살피고 논리적으로 정리하는 능력이 뛰어나요.' },
+      { icon: '🤝', label: '협력·배려', desc: '주변 사람들의 감정을 잘 이해하고, 팀에서 중재자 역할을 자연스럽게 맡아요.' },
+    ],
+    weaknesses: [
+      { icon: '💬', label: '자기표현', desc: '좋은 생각이 있어도 먼저 말하기를 망설이는 편이에요. 발표나 면접 준비로 보완할 수 있어요.', tip: '소규모 모임에서 먼저 의견 내는 연습을 해보세요.' },
+      { icon: '⏰', label: '시간관리', desc: '큰 목표보다는 하루 단위 계획을 세우면 더 실천하기 쉬울 거예요.', tip: '매주 일요일 밤 15분 한 주 계획 루틴을 만들어보세요.' },
+    ],
+    hollandSummary: '현실형(R) + 탐구형(I) 조합으로, 손으로 직접 다루며 분석하는 일을 좋아해요. 데이터 기반 문제 해결이나 기술 직무에 잘 맞아요.',
+    mbtiSummary: 'ISTJ 유형으로 신중하고 체계적이에요. 규칙과 구조가 있는 환경에서 탁월한 성과를 내고, 책임감 있게 일을 마무리해요.',
+  },
+  major: {
+    fitScore: 88,
+    fitDesc: '스마트소프트웨어학과 교육과정이 희망 직무(데이터 분석가)와 매우 잘 맞아요.',
+    recCourses: [
+      { name: '데이터베이스설계', reason: '데이터 분석의 기초 — 다음 학기 필수 수강 권장', tag: '필수' },
+      { name: '파이썬응용프로그래밍', reason: '분석 실무에서 가장 많이 쓰는 언어', tag: '권장' },
+      { name: '머신러닝기초', reason: '데이터 분석 → AI 확장을 위한 핵심 과목', tag: '권장' },
+      { name: '캡스톤디자인', reason: '포트폴리오에 직접 넣을 수 있는 실전 프로젝트', tag: '심화' },
+    ],
+    certs: [
+      { name: '데이터분석준전문가(ADsP)', timeline: '2026년 하반기', desc: '데이터 직무 입문 자격증, 학부생 합격률 높음' },
+      { name: 'SQL개발자(SQLD)', timeline: '2027년 상반기', desc: '실무 DB 역량 증명' },
+    ],
+    extracurr: [
+      { name: 'AI 취업캠프', type: '비교과', desc: '데이터·AI 직무 실전 준비, 3월·9월 운영' },
+      { name: '취업멘토링', type: '비교과', desc: '현직 데이터 분석가 1:1 멘토링' },
+    ],
+  },
+  roadmap: {
+    stages: [
+      {
+        term: '1단계 (현재 ~ 2026년 하반기)',
+        icon: '🌱',
+        color: '#4f46e5',
+        bg: '#eef2ff',
+        goal: '기초 역량 강화 & 진로 확정',
+        items: [
+          '데이터베이스설계·파이썬응용 수강',
+          'ADsP 자격증 취득',
+          'AI 취업캠프 참여',
+          '학과 소모임 프로젝트 참여',
+        ],
+      },
+      {
+        term: '2단계 (2027년 상반기)',
+        icon: '🚀',
+        color: '#0891b2',
+        bg: '#ecfeff',
+        goal: '실무 역량 & 포트폴리오 구축',
+        items: [
+          'SQLD 자격증 취득',
+          '캡스톤디자인 프로젝트 (데이터 분석 주제)',
+          '인턴십 또는 현장실습 지원',
+          '깃허브 포트폴리오 정리',
+        ],
+      },
+      {
+        term: '3단계 (2027년 하반기 ~ 졸업)',
+        icon: '🏆',
+        color: '#059669',
+        bg: '#f0fdf4',
+        goal: '취업 준비 & 최종 목표 달성',
+        items: [
+          '자기소개서·이력서 작성 완료',
+          '데이터 분석 직무 채용 지원 (5곳 이상)',
+          '모의 면접 훈련 (학교 취업지원팀 활용)',
+          '최종 취업 또는 대학원 진학 결정',
+        ],
+      },
+    ],
+  },
+};
+
+/* --- 포트폴리오 메인 화면 --- */
 function renderStudentPortfolio() {
   const port = (PORTFOLIOS['stu-001'] || [])[0];
+  PORT_AI.shown = false;
 
   document.getElementById('app-content').innerHTML = `
   <div class="stu-portfolio-wrap">
@@ -2041,7 +2839,7 @@ function renderStudentPortfolio() {
         <div style="font-size:14px;color:#6b7280">상담사 선생님과 함께 나만의 성장 스토리를 만들어가요</div>
       </div>` : `
 
-      <!-- 진행 단계 -->
+      <!-- 진행 단계 배너 -->
       <div class="stu-animate" style="background:linear-gradient(135deg,#4f46e5,#7c3aed);
         border-radius:var(--radius-xl);padding:24px 20px;color:#fff;margin-bottom:20px;text-align:center">
         <div style="font-size:13px;opacity:.75;margin-bottom:6px">현재 진로 단계</div>
@@ -2057,6 +2855,22 @@ function renderStudentPortfolio() {
           : `<div style="margin-top:10px;background:rgba(255,255,255,.15);border-radius:999px;
               display:inline-block;padding:5px 16px;font-size:13px;font-weight:700">🔄 작성 중</div>`}
       </div>
+
+      <!-- AI 종합 분석 버튼 -->
+      <div id="port-ai-btn-wrap" class="stu-animate" style="margin-bottom:20px">
+        <button id="port-ai-btn" onclick="portAiAnalyze()"
+          style="width:100%;padding:18px;border-radius:var(--radius-xl);border:none;cursor:pointer;
+            background:linear-gradient(135deg,#7c3aed,#ec4899);color:#fff;
+            font-size:16px;font-weight:800;display:flex;align-items:center;justify-content:center;gap:10px;
+            box-shadow:0 4px 16px rgba(124,58,237,.35)">
+          <span style="font-size:22px">✨</span>
+          AI 종합 분석 보고서 생성하기
+          <span style="font-size:13px;font-weight:500;opacity:.85">자기분석·학과분석·진로로드맵 자동 생성</span>
+        </button>
+      </div>
+
+      <!-- AI 분석 결과 영역 (처음엔 숨김) -->
+      <div id="port-ai-result" style="display:none;margin-bottom:24px"></div>
 
       <!-- 로드맵 3단계 -->
       <div class="stu-section-title stu-animate stu-animate-delay-1">🗺️ 나의 진로 로드맵</div>
@@ -2103,194 +2917,1169 @@ function renderStudentPortfolio() {
   setStuTitle('포트폴리오', '나의 성장 스토리');
 }
 
-/* ==========================================================
-   6. 취업준비 (수정 모드 포함)
-   ========================================================== */
-let stuJobEditMode = false;
+/* --- AI 분석 실행 (2.2초 로딩 시뮬레이션) --- */
+function portAiAnalyze() {
+  const btn  = document.getElementById('port-ai-btn');
+  const area = document.getElementById('port-ai-result');
+  if (!btn || !area) return;
 
+  // 버튼 로딩 상태
+  btn.disabled = true;
+  btn.innerHTML = `
+    <div class="spinner" style="width:20px;height:20px;border-color:rgba(255,255,255,.3);border-top-color:#fff;margin-right:10px"></div>
+    AI가 분석하고 있어요...`;
+
+  area.style.display = 'block';
+  area.innerHTML = `
+    <div style="background:linear-gradient(135deg,#faf5ff,#fdf2f8);border:1.5px solid #e9d5ff;
+      border-radius:var(--radius-xl);padding:28px;text-align:center">
+      <div style="font-size:36px;margin-bottom:10px">🤖</div>
+      <div style="font-weight:800;font-size:15px;color:#6d28d9;margin-bottom:6px">AI가 종합 분석 중이에요</div>
+      <div style="font-size:13px;color:#9ca3af">진단 결과·상담 이력·학과 정보를 통합 분석하고 있습니다</div>
+      <div style="margin-top:16px;display:flex;flex-direction:column;gap:6px;max-width:240px;margin:16px auto 0">
+        ${['자기분석 리포트 생성 중...','학과 적합도 분석 중...','진로 로드맵 최적화 중...'].map(t => `
+          <div style="display:flex;align-items:center;gap:8px;font-size:12px;color:#a78bfa;font-weight:600">
+            <div class="spinner" style="width:12px;height:12px;border-color:rgba(167,139,250,.3);border-top-color:#a78bfa;flex-shrink:0"></div>
+            ${t}
+          </div>`).join('')}
+      </div>
+    </div>`;
+
+  setTimeout(() => {
+    PORT_AI.shown = true;
+    btn.innerHTML = `<span style="font-size:18px">✅</span> AI 종합 분석 완료 — PDF로 저장하기`;
+    btn.style.background = 'linear-gradient(135deg,#059669,#0891b2)';
+    btn.disabled = false;
+    btn.onclick = null; // 재분석 방지
+    portRenderAiResult();
+  }, 2200);
+}
+
+/* --- AI 분석 결과 렌더링 --- */
+function portRenderAiResult() {
+  const d    = PORT_AI_DATA;
+  const area = document.getElementById('port-ai-result');
+  if (!area) return;
+
+  area.innerHTML = `
+    <!-- 섹션 헤더 스타일 공통 -->
+    <style>
+      .port-sec { background:#fff; border-radius:16px; border:1.5px solid #e5e7eb; margin-bottom:16px; overflow:hidden; }
+      .port-sec-hd { background:#f5f5f5; padding:14px 18px; font-size:14px; font-weight:800; color:#333;
+        display:flex; align-items:center; gap:8px; border-bottom:1px solid #e5e7eb; }
+      .port-sec-body { padding:16px 18px; }
+      .port-tag { display:inline-block; font-size:11px; font-weight:700; padding:2px 8px;
+        border-radius:999px; margin-left:6px; }
+    </style>
+
+    <!-- ① 자기분석 -->
+    <div class="port-sec stu-animate">
+      <div class="port-sec-hd">🧠 자기분석 리포트</div>
+      <div class="port-sec-body">
+
+        <!-- MBTI + Holland -->
+        <div style="display:flex;gap:10px;margin-bottom:14px;flex-wrap:wrap">
+          <div style="flex:1;min-width:140px;background:#eef2ff;border-radius:10px;padding:12px 14px">
+            <div style="font-size:11px;color:#6d28d9;font-weight:700;margin-bottom:4px">MBTI 유형</div>
+            <div style="font-size:14px;font-weight:800;color:#1f2937">${d.self.mbtiSummary}</div>
+          </div>
+          <div style="flex:1;min-width:140px;background:#fdf2f8;border-radius:10px;padding:12px 14px">
+            <div style="font-size:11px;color:#be185d;font-weight:700;margin-bottom:4px">Holland 흥미코드</div>
+            <div style="font-size:14px;font-weight:800;color:#1f2937">${d.self.hollandSummary}</div>
+          </div>
+        </div>
+
+        <!-- 강점 -->
+        <div style="font-size:13px;font-weight:800;color:#374151;margin-bottom:8px">✨ 핵심 강점</div>
+        ${d.self.strengths.map(s => `
+          <div style="display:flex;align-items:flex-start;gap:10px;padding:10px 12px;
+            background:#f9fafb;border-radius:10px;margin-bottom:6px">
+            <span style="font-size:20px;flex-shrink:0">${s.icon}</span>
+            <div>
+              <div style="font-size:13px;font-weight:800;color:#1f2937">${s.label}</div>
+              <div style="font-size:12px;color:#6b7280;margin-top:2px">${s.desc}</div>
+            </div>
+          </div>`).join('')}
+
+        <!-- 성장 포인트 -->
+        <div style="font-size:13px;font-weight:800;color:#374151;margin:12px 0 8px">🌱 성장 포인트</div>
+        ${d.self.weaknesses.map(w => `
+          <div style="display:flex;align-items:flex-start;gap:10px;padding:10px 12px;
+            background:#fffbeb;border-radius:10px;margin-bottom:6px;border-left:3px solid #f59e0b">
+            <span style="font-size:20px;flex-shrink:0">${w.icon}</span>
+            <div>
+              <div style="font-size:13px;font-weight:800;color:#92400e">${w.label}</div>
+              <div style="font-size:12px;color:#6b7280;margin-top:2px">${w.desc}</div>
+              <div style="font-size:12px;color:#d97706;margin-top:4px;font-weight:600">💡 ${w.tip}</div>
+            </div>
+          </div>`).join('')}
+      </div>
+    </div>
+
+    <!-- ② 학과 분석 -->
+    <div class="port-sec stu-animate">
+      <div class="port-sec-hd">🎓 학과 분석 &amp; 추천</div>
+      <div class="port-sec-body">
+
+        <!-- 적합도 -->
+        <div style="display:flex;align-items:center;gap:14px;margin-bottom:16px;
+          background:linear-gradient(135deg,#ecfdf5,#f0fdf4);border-radius:10px;padding:14px">
+          <div style="text-align:center;flex-shrink:0">
+            <div style="font-size:32px;font-weight:900;color:#059669">${d.major.fitScore}%</div>
+            <div style="font-size:11px;color:#059669;font-weight:700">직무 적합도</div>
+          </div>
+          <div style="font-size:13px;color:#374151;line-height:1.6">${d.major.fitDesc}</div>
+        </div>
+
+        <!-- 추천 과목 -->
+        <div style="font-size:13px;font-weight:800;color:#374151;margin-bottom:8px">📚 다음 학기 추천 수강</div>
+        <table style="width:100%;border-collapse:collapse;font-size:12px;margin-bottom:14px">
+          <thead>
+            <tr style="background:#333;color:#fff">
+              <th style="padding:8px 10px;text-align:left;border-radius:6px 0 0 0">과목명</th>
+              <th style="padding:8px 10px;text-align:left">추천 이유</th>
+              <th style="padding:8px 10px;text-align:center;border-radius:0 6px 0 0">구분</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${d.major.recCourses.map((c, i) => `
+              <tr style="background:${i % 2 === 0 ? '#fff' : '#f9fafb'}">
+                <td style="padding:8px 10px;font-weight:700;color:#1f2937;border-bottom:1px solid #f3f4f6">${c.name}</td>
+                <td style="padding:8px 10px;color:#6b7280;border-bottom:1px solid #f3f4f6">${c.reason}</td>
+                <td style="padding:8px 10px;text-align:center;border-bottom:1px solid #f3f4f6">
+                  <span class="port-tag" style="background:${c.tag==='필수'?'#fee2e2':c.tag==='권장'?'#dbeafe':'#f3e8ff'};
+                    color:${c.tag==='필수'?'#dc2626':c.tag==='권장'?'#1d4ed8':'#7c3aed'}">${c.tag}</span>
+                </td>
+              </tr>`).join('')}
+          </tbody>
+        </table>
+
+        <!-- 자격증 -->
+        <div style="font-size:13px;font-weight:800;color:#374151;margin-bottom:8px">🏅 추천 자격증</div>
+        ${d.major.certs.map(c => `
+          <div style="display:flex;justify-content:space-between;align-items:flex-start;
+            padding:10px 12px;background:#f9fafb;border-radius:8px;margin-bottom:6px">
+            <div>
+              <div style="font-size:13px;font-weight:700;color:#1f2937">${c.name}</div>
+              <div style="font-size:12px;color:#6b7280;margin-top:2px">${c.desc}</div>
+            </div>
+            <span style="font-size:11px;font-weight:700;color:#4f46e5;background:#eef2ff;
+              padding:3px 8px;border-radius:999px;white-space:nowrap;margin-left:8px">${c.timeline}</span>
+          </div>`).join('')}
+
+        <!-- 비교과 -->
+        <div style="font-size:13px;font-weight:800;color:#374151;margin:12px 0 8px">🌟 추천 비교과 프로그램</div>
+        ${d.major.extracurr.map(e => `
+          <div style="display:flex;align-items:center;gap:10px;padding:10px 12px;
+            background:#f0fdf4;border-radius:8px;margin-bottom:6px;border-left:3px solid #059669">
+            <span style="font-size:12px;font-weight:700;color:#059669;background:#dcfce7;
+              padding:2px 8px;border-radius:999px;white-space:nowrap">${e.type}</span>
+            <div>
+              <div style="font-size:13px;font-weight:700;color:#1f2937">${e.name}</div>
+              <div style="font-size:12px;color:#6b7280;margin-top:1px">${e.desc}</div>
+            </div>
+          </div>`).join('')}
+      </div>
+    </div>
+
+    <!-- ③ 진로 로드맵 -->
+    <div class="port-sec stu-animate">
+      <div class="port-sec-hd">🗺️ AI 추천 진로 로드맵</div>
+      <div class="port-sec-body">
+        ${d.roadmap.stages.map(s => `
+          <div style="background:${s.bg};border-radius:12px;padding:14px 16px;margin-bottom:10px;border-left:4px solid ${s.color}">
+            <div style="font-size:12px;font-weight:700;color:${s.color};margin-bottom:4px">${s.icon} ${s.term}</div>
+            <div style="font-size:14px;font-weight:800;color:#1f2937;margin-bottom:8px">${s.goal}</div>
+            ${s.items.map(item => `
+              <div style="display:flex;align-items:flex-start;gap:6px;font-size:12px;color:#374151;margin-bottom:4px">
+                <span style="color:${s.color};font-size:14px;line-height:1.2">•</span> ${item}
+              </div>`).join('')}
+          </div>`).join('')}
+      </div>
+    </div>
+
+    <!-- PDF 출력 버튼 2개 -->
+    <div style="display:flex;gap:10px;margin-top:8px;margin-bottom:8px">
+      <button onclick="pdfSummary()"
+        style="flex:1;padding:14px;border-radius:12px;border:2px solid #4f46e5;cursor:pointer;
+          background:#fff;color:#4f46e5;font-size:14px;font-weight:800;
+          display:flex;align-items:center;justify-content:center;gap:6px">
+        📄 요약 리포트 PDF (1페이지)
+      </button>
+      <button onclick="pdfDetailed()"
+        style="flex:1;padding:14px;border-radius:12px;border:none;cursor:pointer;
+          background:linear-gradient(135deg,#4f46e5,#7c3aed);color:#fff;
+          font-size:14px;font-weight:800;
+          display:flex;align-items:center;justify-content:center;gap:6px;
+          box-shadow:0 4px 12px rgba(79,70,229,.3)">
+        📋 전체 포트폴리오 PDF
+      </button>
+    </div>
+  `;
+}
+
+/* ----------------------------------------------------------
+   PDF — 요약 리포트 (1페이지)
+---------------------------------------------------------- */
+function pdfSummary() {
+  const stu  = USERS.student;
+  const d    = PORT_AI_DATA;
+  const today = new Date().toLocaleDateString('ko-KR');
+
+  const html = `
+  <div style="font-family:'맑은 고딕',Arial,sans-serif;width:794px;padding:40px 56px;color:#222;font-size:12px;line-height:1.6">
+
+    <!-- 헤더 -->
+    <div style="border-bottom:3px solid #4f46e5;padding-bottom:12px;margin-bottom:20px;display:flex;justify-content:space-between;align-items:flex-end">
+      <div>
+        <div style="font-size:20px;font-weight:900;color:#4f46e5">M-Cap 진로 포트폴리오 요약</div>
+        <div style="font-size:12px;color:#6b7280;margin-top:3px">명지전문대학 AI융합진로지원센터</div>
+      </div>
+      <div style="text-align:right;font-size:11px;color:#9ca3af">출력일: ${today}</div>
+    </div>
+
+    <!-- 기본정보 -->
+    <table style="width:100%;border-collapse:collapse;margin-bottom:16px;font-size:12px">
+      <tr style="background:#f5f5f5">
+        <th style="padding:7px 12px;text-align:left;width:15%;border:1px solid #e5e7eb;color:#333">이름</th>
+        <td style="padding:7px 12px;border:1px solid #e5e7eb;width:20%">${stu?.name || '김민준'}</td>
+        <th style="padding:7px 12px;text-align:left;width:15%;background:#f5f5f5;border:1px solid #e5e7eb;color:#333">학과</th>
+        <td style="padding:7px 12px;border:1px solid #e5e7eb;width:20%">${stu?.department || '스마트소프트웨어학과'}</td>
+        <th style="padding:7px 12px;text-align:left;width:10%;background:#f5f5f5;border:1px solid #e5e7eb;color:#333">학년</th>
+        <td style="padding:7px 12px;border:1px solid #e5e7eb">${stu?.grade || 2}학년</td>
+      </tr>
+      <tr>
+        <th style="padding:7px 12px;text-align:left;background:#f5f5f5;border:1px solid #e5e7eb;color:#333">MBTI</th>
+        <td style="padding:7px 12px;border:1px solid #e5e7eb">ISTJ</td>
+        <th style="padding:7px 12px;text-align:left;background:#f5f5f5;border:1px solid #e5e7eb;color:#333">Holland코드</th>
+        <td style="padding:7px 12px;border:1px solid #e5e7eb">RI (현실·탐구형)</td>
+        <th style="padding:7px 12px;text-align:left;background:#f5f5f5;border:1px solid #e5e7eb;color:#333">진로단계</th>
+        <td style="padding:7px 12px;border:1px solid #e5e7eb">진로탐색</td>
+      </tr>
+    </table>
+
+    <!-- 핵심 강점 -->
+    <div style="background:#f5f5f5;padding:8px 12px;font-size:13px;font-weight:700;color:#333;margin-bottom:8px;border-radius:4px">
+      ✨ 핵심 강점
+    </div>
+    <table style="width:100%;border-collapse:collapse;margin-bottom:16px;font-size:12px">
+      <thead>
+        <tr style="background:#333;color:#fff">
+          <th style="padding:7px 10px;text-align:left;width:20%">강점</th>
+          <th style="padding:7px 10px;text-align:left">설명</th>
+        </tr>
+      </thead>
+      <tbody>
+        ${d.self.strengths.map((s, i) => `
+          <tr style="background:${i%2===0?'#fff':'#f9fafb'}">
+            <td style="padding:7px 10px;font-weight:700;border-bottom:1px solid #f3f4f6">${s.label}</td>
+            <td style="padding:7px 10px;color:#374151;border-bottom:1px solid #f3f4f6">${s.desc}</td>
+          </tr>`).join('')}
+      </tbody>
+    </table>
+
+    <!-- 다음 학기 추천 수강 -->
+    <div style="background:#f5f5f5;padding:8px 12px;font-size:13px;font-weight:700;color:#333;margin-bottom:8px;border-radius:4px">
+      📚 다음 학기 추천 수강
+    </div>
+    <table style="width:100%;border-collapse:collapse;margin-bottom:16px;font-size:12px">
+      <thead>
+        <tr style="background:#333;color:#fff">
+          <th style="padding:7px 10px;text-align:left;width:25%">과목명</th>
+          <th style="padding:7px 10px;text-align:left">추천 이유</th>
+          <th style="padding:7px 10px;text-align:center;width:12%">구분</th>
+        </tr>
+      </thead>
+      <tbody>
+        ${d.major.recCourses.map((c, i) => `
+          <tr style="background:${i%2===0?'#fff':'#f9fafb'}">
+            <td style="padding:7px 10px;font-weight:700;border-bottom:1px solid #f3f4f6">${c.name}</td>
+            <td style="padding:7px 10px;color:#6b7280;border-bottom:1px solid #f3f4f6">${c.reason}</td>
+            <td style="padding:7px 10px;text-align:center;border-bottom:1px solid #f3f4f6;font-weight:700">${c.tag}</td>
+          </tr>`).join('')}
+      </tbody>
+    </table>
+
+    <!-- 진로 로드맵 요약 -->
+    <div style="background:#f5f5f5;padding:8px 12px;font-size:13px;font-weight:700;color:#333;margin-bottom:8px;border-radius:4px">
+      🗺️ 진로 로드맵 요약
+    </div>
+    <table style="width:100%;border-collapse:collapse;margin-bottom:24px;font-size:12px">
+      <thead>
+        <tr style="background:#333;color:#fff">
+          <th style="padding:7px 10px;text-align:left;width:28%">단계</th>
+          <th style="padding:7px 10px;text-align:left">목표</th>
+        </tr>
+      </thead>
+      <tbody>
+        ${d.roadmap.stages.map((s, i) => `
+          <tr style="background:${i%2===0?'#fff':'#f9fafb'}">
+            <td style="padding:7px 10px;font-weight:700;border-bottom:1px solid #f3f4f6">${s.term}</td>
+            <td style="padding:7px 10px;color:#374151;border-bottom:1px solid #f3f4f6">${s.goal} — ${s.items.join(' / ')}</td>
+          </tr>`).join('')}
+      </tbody>
+    </table>
+
+    <!-- 서명란 -->
+    <div style="border-top:1px solid #e5e7eb;padding-top:16px;display:flex;justify-content:space-between;font-size:11px;color:#6b7280">
+      <div>학생 확인: _________________ (서명)</div>
+      <div>상담사 확인: _________________ (서명)</div>
+      <div>교수 확인: _________________ (서명)</div>
+      <div>발급일: ${today}</div>
+    </div>
+  </div>`;
+
+  const el = document.createElement('div');
+  el.innerHTML = html;
+  document.body.appendChild(el);
+
+  html2pdf().set({
+    margin:       [15, 15, 15, 15],
+    filename:     '진로포트폴리오_요약_' + (stu?.name || '학생') + '.pdf',
+    image:        { type: 'jpeg', quality: 0.98 },
+    html2canvas:  { scale: 2, useCORS: true },
+    jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' },
+    pagebreak:    { mode: 'avoid-all' },
+  }).from(el.firstElementChild).save().then(() => {
+    document.body.removeChild(el);
+    showToast('요약 리포트 PDF가 저장되었어요!', 'success');
+  });
+}
+
+/* ----------------------------------------------------------
+   PDF — 전체 포트폴리오 (상세)
+---------------------------------------------------------- */
+function pdfDetailed() {
+  const stu   = USERS.student;
+  const d     = PORT_AI_DATA;
+  const port  = (PORTFOLIOS['stu-001'] || [])[0];
+  const today = new Date().toLocaleDateString('ko-KR');
+
+  const roadmapRows = d.roadmap.stages.map(s =>
+    s.items.map((item, i) => `
+      <tr style="background:#fff">
+        ${i === 0 ? `<td style="padding:7px 10px;font-weight:700;border-bottom:1px solid #f3f4f6;vertical-align:top"
+          rowspan="${s.items.length}">${s.icon} ${s.term}</td>` : ''}
+        <td style="padding:7px 10px;border-bottom:1px solid #f3f4f6">${item}</td>
+      </tr>`).join('')
+  ).join('');
+
+  const actionRows = port ? port.actionPlans.map((a, i) => `
+    <tr style="background:${i%2===0?'#fff':'#f9fafb'}">
+      <td style="padding:7px 10px;border-bottom:1px solid #f3f4f6">${a.activityName}</td>
+      <td style="padding:7px 10px;border-bottom:1px solid #f3f4f6">${a.goal}</td>
+      <td style="padding:7px 10px;text-align:center;border-bottom:1px solid #f3f4f6">${a.schedule}</td>
+      <td style="padding:7px 10px;text-align:center;border-bottom:1px solid #f3f4f6">${a.category}</td>
+      <td style="padding:7px 10px;text-align:center;border-bottom:1px solid #f3f4f6">${a.isCompleted ? '✅' : '⬜'}</td>
+    </tr>`).join('') : '';
+
+  const html = `
+  <div style="font-family:'맑은 고딕',Arial,sans-serif;width:794px;padding:40px 56px;color:#222;font-size:12px;line-height:1.6">
+
+    <!-- 표지 -->
+    <div style="text-align:center;padding:40px 0 30px;border-bottom:3px solid #4f46e5;margin-bottom:28px">
+      <div style="font-size:13px;color:#6b7280;margin-bottom:6px">명지전문대학 AI융합진로지원센터</div>
+      <div style="font-size:26px;font-weight:900;color:#4f46e5;margin-bottom:6px">AI 기반 진로 포트폴리오</div>
+      <div style="font-size:14px;color:#374151;margin-bottom:16px">개인 맞춤형 진로 설계 보고서</div>
+      <table style="margin:0 auto;border-collapse:collapse;font-size:13px">
+        <tr>
+          <td style="padding:5px 12px;font-weight:700;color:#4f46e5">이름</td>
+          <td style="padding:5px 12px">${stu?.name || '김민준'}</td>
+          <td style="padding:5px 12px;font-weight:700;color:#4f46e5">학과</td>
+          <td style="padding:5px 12px">${stu?.department || '스마트소프트웨어학과'}</td>
+          <td style="padding:5px 12px;font-weight:700;color:#4f46e5">학년</td>
+          <td style="padding:5px 12px">${stu?.grade || 2}학년</td>
+        </tr>
+      </table>
+      <div style="font-size:11px;color:#9ca3af;margin-top:12px">출력일: ${today}</div>
+    </div>
+
+    <!-- 1. 자기분석 -->
+    <div style="background:#f5f5f5;padding:9px 12px;font-size:14px;font-weight:800;color:#333;margin-bottom:10px;border-radius:4px">
+      1. 자기분석 리포트
+    </div>
+    <table style="width:100%;border-collapse:collapse;margin-bottom:8px;font-size:12px">
+      <tr style="background:#f5f5f5">
+        <th style="padding:7px 10px;text-align:left;width:20%;border:1px solid #e5e7eb;color:#333">MBTI</th>
+        <td style="padding:7px 10px;border:1px solid #e5e7eb" colspan="3">ISTJ — ${d.self.mbtiSummary}</td>
+      </tr>
+      <tr>
+        <th style="padding:7px 10px;text-align:left;background:#f5f5f5;border:1px solid #e5e7eb;color:#333">Holland코드</th>
+        <td style="padding:7px 10px;border:1px solid #e5e7eb" colspan="3">RI (현실형·탐구형) — ${d.self.hollandSummary}</td>
+      </tr>
+    </table>
+    <table style="width:100%;border-collapse:collapse;margin-bottom:16px;font-size:12px">
+      <thead>
+        <tr style="background:#333;color:#fff">
+          <th style="padding:7px 10px;text-align:center;width:12%">구분</th>
+          <th style="padding:7px 10px;text-align:left;width:22%">항목</th>
+          <th style="padding:7px 10px;text-align:left">내용</th>
+        </tr>
+      </thead>
+      <tbody>
+        ${d.self.strengths.map((s, i) => `
+          <tr style="background:${i%2===0?'#fff':'#f9fafb'}">
+            ${i===0?`<td style="padding:7px 10px;text-align:center;font-weight:700;border-bottom:1px solid #f3f4f6;vertical-align:middle" rowspan="${d.self.strengths.length}">강점</td>`:''}
+            <td style="padding:7px 10px;font-weight:700;border-bottom:1px solid #f3f4f6">${s.label}</td>
+            <td style="padding:7px 10px;border-bottom:1px solid #f3f4f6">${s.desc}</td>
+          </tr>`).join('')}
+        ${d.self.weaknesses.map((w, i) => `
+          <tr style="background:${i%2===0?'#fffbeb':'#fff8ed'}">
+            ${i===0?`<td style="padding:7px 10px;text-align:center;font-weight:700;border-bottom:1px solid #f3f4f6;vertical-align:middle" rowspan="${d.self.weaknesses.length}">성장포인트</td>`:''}
+            <td style="padding:7px 10px;font-weight:700;border-bottom:1px solid #f3f4f6">${w.label}</td>
+            <td style="padding:7px 10px;border-bottom:1px solid #f3f4f6">${w.desc} / 실천팁: ${w.tip}</td>
+          </tr>`).join('')}
+      </tbody>
+    </table>
+
+    <!-- 2. 학과 분석 -->
+    <div style="background:#f5f5f5;padding:9px 12px;font-size:14px;font-weight:800;color:#333;margin-bottom:10px;border-radius:4px">
+      2. 학과 분석 &amp; 추천
+    </div>
+    <div style="margin-bottom:8px;font-size:12px;color:#374151;padding:8px 12px;background:#ecfdf5;border-radius:6px;border-left:3px solid #059669">
+      직무 적합도 <strong>${d.major.fitScore}%</strong> — ${d.major.fitDesc}
+    </div>
+    <table style="width:100%;border-collapse:collapse;margin-bottom:8px;font-size:12px">
+      <thead>
+        <tr style="background:#333;color:#fff">
+          <th style="padding:7px 10px;text-align:left;width:25%">추천 과목</th>
+          <th style="padding:7px 10px;text-align:left">추천 이유</th>
+          <th style="padding:7px 10px;text-align:center;width:12%">구분</th>
+        </tr>
+      </thead>
+      <tbody>
+        ${d.major.recCourses.map((c, i) => `
+          <tr style="background:${i%2===0?'#fff':'#f9fafb'}">
+            <td style="padding:7px 10px;font-weight:700;border-bottom:1px solid #f3f4f6">${c.name}</td>
+            <td style="padding:7px 10px;color:#6b7280;border-bottom:1px solid #f3f4f6">${c.reason}</td>
+            <td style="padding:7px 10px;text-align:center;font-weight:700;border-bottom:1px solid #f3f4f6">${c.tag}</td>
+          </tr>`).join('')}
+      </tbody>
+    </table>
+    <table style="width:100%;border-collapse:collapse;margin-bottom:16px;font-size:12px">
+      <thead>
+        <tr style="background:#333;color:#fff">
+          <th style="padding:7px 10px;text-align:left;width:35%">추천 자격증</th>
+          <th style="padding:7px 10px;text-align:left">설명</th>
+          <th style="padding:7px 10px;text-align:center;width:22%">목표 시기</th>
+        </tr>
+      </thead>
+      <tbody>
+        ${d.major.certs.map((c, i) => `
+          <tr style="background:${i%2===0?'#fff':'#f9fafb'}">
+            <td style="padding:7px 10px;font-weight:700;border-bottom:1px solid #f3f4f6">${c.name}</td>
+            <td style="padding:7px 10px;color:#6b7280;border-bottom:1px solid #f3f4f6">${c.desc}</td>
+            <td style="padding:7px 10px;text-align:center;border-bottom:1px solid #f3f4f6">${c.timeline}</td>
+          </tr>`).join('')}
+      </tbody>
+    </table>
+
+    <!-- 3. 진로 로드맵 -->
+    <div style="background:#f5f5f5;padding:9px 12px;font-size:14px;font-weight:800;color:#333;margin-bottom:10px;border-radius:4px">
+      3. 진로 로드맵
+    </div>
+    <table style="width:100%;border-collapse:collapse;margin-bottom:16px;font-size:12px">
+      <thead>
+        <tr style="background:#333;color:#fff">
+          <th style="padding:7px 10px;text-align:left;width:30%">단계</th>
+          <th style="padding:7px 10px;text-align:left">세부 실행 계획</th>
+        </tr>
+      </thead>
+      <tbody>${roadmapRows}</tbody>
+    </table>
+
+    <!-- 4. 실행 계획 체크리스트 -->
+    ${port ? `
+    <div style="background:#f5f5f5;padding:9px 12px;font-size:14px;font-weight:800;color:#333;margin-bottom:10px;border-radius:4px">
+      4. 실행 계획 체크리스트
+    </div>
+    <table style="width:100%;border-collapse:collapse;margin-bottom:24px;font-size:12px">
+      <thead>
+        <tr style="background:#333;color:#fff">
+          <th style="padding:7px 10px;text-align:left;width:30%">활동명</th>
+          <th style="padding:7px 10px;text-align:left">목표</th>
+          <th style="padding:7px 10px;text-align:center;width:16%">일정</th>
+          <th style="padding:7px 10px;text-align:center;width:12%">카테고리</th>
+          <th style="padding:7px 10px;text-align:center;width:10%">완료</th>
+        </tr>
+      </thead>
+      <tbody>${actionRows}</tbody>
+    </table>` : ''}
+
+    <!-- 서명란 -->
+    <div style="border-top:2px solid #4f46e5;padding-top:16px;display:flex;justify-content:space-between;font-size:11px;color:#6b7280">
+      <div style="text-align:center">
+        <div style="margin-bottom:24px">학생 확인</div>
+        <div>_________________ (서명)</div>
+      </div>
+      <div style="text-align:center">
+        <div style="margin-bottom:24px">상담사 확인</div>
+        <div>_________________ (서명)</div>
+      </div>
+      <div style="text-align:center">
+        <div style="margin-bottom:24px">담당 교수 확인</div>
+        <div>_________________ (서명)</div>
+      </div>
+      <div style="text-align:right;align-self:flex-end;font-size:11px;color:#9ca3af">
+        명지전문대학 AI융합진로지원센터<br>발급일: ${today}
+      </div>
+    </div>
+  </div>`;
+
+  const el = document.createElement('div');
+  el.innerHTML = html;
+  document.body.appendChild(el);
+
+  html2pdf().set({
+    margin:       [15, 15, 15, 15],
+    filename:     '진로포트폴리오_전체_' + (stu?.name || '학생') + '.pdf',
+    image:        { type: 'jpeg', quality: 0.98 },
+    html2canvas:  { scale: 2, useCORS: true },
+    jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' },
+    pagebreak:    { mode: ['avoid-all', 'css', 'legacy'] },
+  }).from(el.firstElementChild).save().then(() => {
+    document.body.removeChild(el);
+    showToast('전체 포트폴리오 PDF가 저장되었어요!', 'success');
+  });
+}
+
+/* ==========================================================
+   6. 취업준비 — 기초 데이터 수집
+   ========================================================== */
+
+/* --- 취업준비 입력 상태 --- */
+const StuJob = {
+  direction:    '',          // 취업 / 진학 / 창업 / 기타
+  timing:       '',          // 희망 취업 시기
+  timingEtc:    '',
+  regions:      [],          // 희망 지역 (다중)
+  jobTypes:     [],          // 희망 직종 (다중)
+  jobEtc:       '',          // 기타 직종 직접 입력
+  jobTags:      [],          // 희망 직무 키워드 태그
+  salary:       '',          // 희망 급여
+  certMajor:    [],          // 전공 자격증 태그
+  oaLevel:      '',          // 컴퓨터활용능력 등급
+  oaEtc:        [],          // OA 기타 체크박스
+  license:      '',          // 운전면허
+  toeic:        '',          // 토익 점수
+  langEtc:      '',          // 기타 어학
+  certOther:    [],          // 기타 자격증 태그
+  cafeCounsel:  '',          // 잡카페 상담 희망
+  natSupport:   '',          // 국민취업지원제도 연계 희망
+  counselorMsg: '',          // 상담사에게 한마디
+  aiShown:      false,       // AI 분석 결과 표시 여부
+};
+
+/* --- 학과별 관련 직종 --- */
+const DEPT_JOBS = {
+  '스마트소프트웨어학과': ['소프트웨어 개발자', '데이터 분석가', 'AI 엔지니어', '웹·앱 개발자', 'UI/UX 디자이너', 'IT 컨설턴트', '데이터베이스 관리자', '정보보안 전문가'],
+  '경영학과':             ['경영기획', '마케터', '인사·노무', '재무·회계', '영업·영업관리', '유통·물류', '창업·스타트업', '컨설턴트'],
+  '간호학과':             ['병원 간호사', '보건교사', '보건직 공무원', '의료 코디네이터', '상담 간호사', '연구 간호사'],
+  default:                ['사무직', '영업·마케팅', '서비스업', '기술직', '연구개발', '공무원·공공기관', '교육·강사', '창업'],
+};
+
+/* --- 섹션 완료 여부 판별 --- */
+function jobSecDone(sec) {
+  const j = StuJob;
+  switch (sec) {
+    case 1: return !!j.direction;
+    case 2: return j.direction !== '취업' || !!j.timing;
+    case 3: return j.regions.length > 0;
+    case 4: return j.jobTypes.length > 0 || !!j.jobEtc;
+    case 5: return !!j.salary;
+    case 6: return j.certMajor.length > 0 || !!j.oaLevel || !!j.toeic || j.certOther.length > 0;
+    case 7: return !!j.cafeCounsel && !!j.natSupport;
+    case 8: return !!j.counselorMsg;
+    default: return false;
+  }
+}
+
+/* --- 섹션 카드 공통 래퍼 --- */
+function jobSecCard(num, icon, title, bodyHtml) {
+  const done = jobSecDone(num);
+  return `
+    <div class="stu-animate" style="background:#fff;border-radius:16px;margin-bottom:14px;
+      border:1.5px solid ${done ? '#c4b5fd' : '#e5e7eb'};overflow:hidden;
+      box-shadow:${done ? '0 2px 12px rgba(124,58,237,.1)' : '0 2px 8px rgba(0,0,0,.05)'}">
+      <!-- 섹션 헤더 -->
+      <div style="display:flex;align-items:center;justify-content:space-between;
+        padding:14px 18px;background:${done ? 'linear-gradient(135deg,#faf5ff,#fdf4ff)' : '#fafafa'};
+        border-bottom:1px solid ${done ? '#e9d5ff' : '#f3f4f6'}">
+        <div style="display:flex;align-items:center;gap:10px">
+          <span style="font-size:20px">${icon}</span>
+          <span style="font-size:14px;font-weight:800;color:#1f2937">섹션 ${num}. ${title}</span>
+        </div>
+        ${done
+          ? `<span style="background:#7c3aed;color:#fff;font-size:11px;font-weight:700;
+              padding:3px 10px;border-radius:999px">✓ 완료</span>`
+          : `<span style="background:#f3f4f6;color:#9ca3af;font-size:11px;font-weight:600;
+              padding:3px 10px;border-radius:999px">미입력</span>`}
+      </div>
+      <!-- 섹션 본문 -->
+      <div style="padding:16px 18px">${bodyHtml}</div>
+    </div>`;
+}
+
+/* --- 선택 버튼 공통 스타일 --- */
+function jobBtn(val, selected, onclick, label, sub='') {
+  const on = selected;
+  return `<button onclick="${onclick}"
+    style="padding:${sub?'10px 14px':'9px 16px'};border-radius:10px;font-size:13px;font-weight:700;cursor:pointer;
+      border:2px solid ${on?'#7c3aed':'#e5e7eb'};
+      background:${on?'linear-gradient(135deg,#7c3aed,#a78bfa)':'#fff'};
+      color:${on?'#fff':'#374151'};
+      transition:all .15s;text-align:left;line-height:1.4">
+    ${label}${sub?`<div style="font-size:11px;opacity:.8;margin-top:2px;font-weight:500">${sub}</div>`:''}
+  </button>`;
+}
+
+/* --- 태그 입력 공통 렌더 --- */
+function jobTagHtml(tags, addFn, removeFn, placeholder, inputId) {
+  return `
+    <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px" id="${inputId}-tags">
+      ${tags.map((t, i) => `
+        <span style="background:linear-gradient(135deg,#ede9fe,#fdf4ff);color:#6d28d9;
+          font-size:12px;font-weight:700;padding:4px 10px;border-radius:999px;
+          display:flex;align-items:center;gap:4px;border:1px solid #ddd6fe">
+          ${esc(t)}
+          <button onclick="${removeFn}(${i})" style="background:none;border:none;cursor:pointer;
+            color:#a78bfa;font-size:14px;line-height:1;padding:0 2px">&times;</button>
+        </span>`).join('')}
+    </div>
+    <div style="display:flex;gap:6px">
+      <input id="${inputId}" type="text" placeholder="${placeholder}"
+        style="flex:1;border:1.5px solid #e9d5ff;border-radius:8px;padding:8px 12px;font-size:13px;outline:none"
+        onkeydown="if(event.key==='Enter'){event.preventDefault();${addFn}()}">
+      <button onclick="${addFn}()"
+        style="background:linear-gradient(135deg,#7c3aed,#a78bfa);color:#fff;border:none;
+          border-radius:8px;padding:8px 14px;font-size:13px;font-weight:700;cursor:pointer">추가</button>
+    </div>`;
+}
+
+/* ========== 취업준비 메인 렌더 ========== */
 function renderStudentJob() {
-  stuJobEditMode = false;
-  const emp  = EMPLOYMENT_STATUS['stu-001'];
-  const pct  = emp ? 35 : 0;
-  const circ = 2 * Math.PI * 54;
-  const offset = circ - (pct / 100) * circ;
+  const dept = USERS.student?.department || '';
+  const deptJobs = DEPT_JOBS[dept] || DEPT_JOBS.default;
+  const j = StuJob;
+
+  /* ---- 섹션 1: 진로 방향 ---- */
+  const sec1 = jobSecCard(1, '🧭', '진로 방향', `
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+      ${[
+        { val:'취업',  icon:'💼', sub:'기업·공공기관 취업 목표' },
+        { val:'진학',  icon:'🎓', sub:'대학원·편입·유학 목표' },
+        { val:'창업',  icon:'🚀', sub:'나만의 사업을 시작할 계획' },
+        { val:'기타',  icon:'💡', sub:'아직 고민 중이에요' },
+      ].map(d => jobBtn(d.val, j.direction===d.val,
+        `stuJobSetDir('${d.val}')`,
+        `${d.icon} ${d.val}`, d.sub)).join('')}
+    </div>`);
+
+  /* ---- 섹션 2: 취업 희망 시기 (취업 선택 시만) ---- */
+  const sec2 = j.direction !== '취업' ? '' : jobSecCard(2, '📅', '취업 희망 시기', `
+    <div style="display:flex;flex-direction:column;gap:8px">
+      ${[
+        '졸업 후 3개월 이내',
+        '졸업 후 6개월 이내',
+        '졸업 후 1년 이내',
+        '재학 중 취업 희망',
+      ].map(v => `
+        <div onclick="stuJobSetTiming('${v}')"
+          style="display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:10px;cursor:pointer;
+            border:2px solid ${j.timing===v?'#7c3aed':'#e5e7eb'};
+            background:${j.timing===v?'linear-gradient(135deg,#faf5ff,#ede9fe)':'#fff'}">
+          <div style="width:18px;height:18px;border-radius:50%;border:2px solid ${j.timing===v?'#7c3aed':'#d1d5db'};
+            background:${j.timing===v?'#7c3aed':'#fff'};flex-shrink:0;display:flex;align-items:center;justify-content:center">
+            ${j.timing===v?'<div style="width:7px;height:7px;background:#fff;border-radius:50%"></div>':''}
+          </div>
+          <span style="font-size:13px;font-weight:${j.timing===v?'800':'600'};color:${j.timing===v?'#6d28d9':'#374151'}">${v}</span>
+        </div>`).join('')}
+      <!-- 기타 직접 입력 -->
+      <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+        <div onclick="stuJobSetTiming('기타')"
+          style="display:flex;align-items:center;gap:10px;cursor:pointer">
+          <div style="width:18px;height:18px;border-radius:50%;border:2px solid ${j.timing==='기타'?'#7c3aed':'#d1d5db'};
+            background:${j.timing==='기타'?'#7c3aed':'#fff'};flex-shrink:0;display:flex;align-items:center;justify-content:center">
+            ${j.timing==='기타'?'<div style="width:7px;height:7px;background:#fff;border-radius:50%"></div>':''}
+          </div>
+          <span style="font-size:13px;font-weight:${j.timing==='기타'?'800':'600'};color:${j.timing==='기타'?'#6d28d9':'#374151'}">기타</span>
+        </div>
+        ${j.timing==='기타'?`
+          <input id="job-timing-etc" type="text" value="${esc(j.timingEtc)}"
+            placeholder="직접 입력" onchange="StuJob.timingEtc=this.value"
+            style="flex:1;min-width:120px;border:1.5px solid #e9d5ff;border-radius:8px;
+              padding:7px 10px;font-size:13px;outline:none">`:''
+        }
+      </div>
+    </div>`);
+
+  /* ---- 섹션 3: 희망 지역 ---- */
+  const regions = ['서울','인천','경기','충청','경상','전라','강원','제주','해외','무관'];
+  const sec3 = jobSecCard(3, '📍', '희망 지역 (다중 선택)', `
+    <div style="display:flex;flex-wrap:wrap;gap:8px">
+      ${regions.map(r => {
+        const on = j.regions.includes(r);
+        return `<button onclick="stuJobToggleRegion('${r}')"
+          style="padding:8px 16px;border-radius:999px;font-size:13px;font-weight:700;cursor:pointer;
+            border:2px solid ${on?'#7c3aed':'#e5e7eb'};
+            background:${on?'linear-gradient(135deg,#7c3aed,#a78bfa)':'#fff'};
+            color:${on?'#fff':'#374151'}">
+          ${r}
+        </button>`;
+      }).join('')}
+    </div>
+    ${j.regions.length>0?`<div style="margin-top:10px;font-size:12px;color:#7c3aed;font-weight:600">
+      선택: ${j.regions.join(' · ')}</div>`:''}
+  `);
+
+  /* ---- 섹션 4: 희망 직업·직종 ---- */
+  const sec4 = jobSecCard(4, '🎯', '희망 직업·직종', `
+    <div style="font-size:12px;color:#6b7280;margin-bottom:10px">전공 관련 직종 (다중 선택)</div>
+    <div style="display:flex;flex-wrap:wrap;gap:7px;margin-bottom:14px">
+      ${deptJobs.map(jb => {
+        const on = j.jobTypes.includes(jb);
+        return `<button onclick="stuJobToggleJob('${jb}')"
+          style="padding:7px 14px;border-radius:999px;font-size:12px;font-weight:700;cursor:pointer;
+            border:2px solid ${on?'#7c3aed':'#e5e7eb'};
+            background:${on?'linear-gradient(135deg,#7c3aed,#a78bfa)':'#fff'};
+            color:${on?'#fff':'#374151'}">${jb}</button>`;
+      }).join('')}
+    </div>
+    <div style="font-size:12px;color:#6b7280;margin-bottom:6px">기타 직종 직접 입력</div>
+    <div style="display:flex;gap:6px;margin-bottom:14px">
+      <input id="job-etc-input" type="text" value="${esc(j.jobEtc)}"
+        placeholder="예: 프리랜서 작가"
+        style="flex:1;border:1.5px solid #e9d5ff;border-radius:8px;padding:8px 12px;font-size:13px;outline:none"
+        onchange="StuJob.jobEtc=this.value">
+    </div>
+    <div style="font-size:12px;color:#6b7280;margin-bottom:6px">희망 직무 키워드 태그</div>
+    ${jobTagHtml(j.jobTags, 'stuJobAddTag', 'stuJobRemoveTag', '예: 데이터 분석, 기획, 마케팅', 'job-tag-input')}
+  `);
+
+  /* ---- 섹션 5: 희망 급여 ---- */
+  const salaries = ['2,400만원 미만','2,400~3,000만원','3,000~3,500만원','3,500만원 이상','무관'];
+  const sec5 = jobSecCard(5, '💰', '희망 급여', `
+    <div style="display:flex;flex-wrap:wrap;gap:8px">
+      ${salaries.map(s => {
+        const on = j.salary === s;
+        return `<button onclick="stuJobSetSalary('${s}')"
+          style="padding:10px 16px;border-radius:10px;font-size:13px;font-weight:700;cursor:pointer;
+            border:2px solid ${on?'#7c3aed':'#e5e7eb'};
+            background:${on?'linear-gradient(135deg,#7c3aed,#a78bfa)':'#fff'};
+            color:${on?'#fff':'#374151'}">${s}</button>`;
+      }).join('')}
+    </div>`);
+
+  /* ---- 섹션 6: 자격증 보유 현황 ---- */
+  const sec6 = jobSecCard(6, '🏅', '자격증 보유 현황', `
+    <!-- 전공 자격증 -->
+    <div style="font-size:12px;font-weight:700;color:#374151;margin-bottom:6px">전공 자격증</div>
+    ${jobTagHtml(j.certMajor, 'stuJobAddCertMajor', 'stuJobRemoveCertMajor', '예: 정보처리기사, ADsP', 'cert-major-input')}
+
+    <!-- OA 능력 -->
+    <div style="font-size:12px;font-weight:700;color:#374151;margin:14px 0 8px">OA 능력</div>
+    <div style="margin-bottom:8px">
+      <div style="font-size:11px;color:#6b7280;margin-bottom:6px">컴퓨터활용능력</div>
+      <div style="display:flex;gap:7px;flex-wrap:wrap">
+        ${['1급','2급','없음'].map(v => {
+          const on = j.oaLevel === v;
+          return `<button onclick="stuJobSetOa('${v}')"
+            style="padding:7px 16px;border-radius:999px;font-size:12px;font-weight:700;cursor:pointer;
+              border:2px solid ${on?'#7c3aed':'#e5e7eb'};
+              background:${on?'linear-gradient(135deg,#7c3aed,#a78bfa)':'#fff'};
+              color:${on?'#fff':'#374151'}">컴활 ${v}</button>`;
+        }).join('')}
+      </div>
+    </div>
+    <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px">
+      ${['워드프로세서','ITQ','MOS'].map(v => {
+        const on = j.oaEtc.includes(v);
+        return `<label style="display:flex;align-items:center;gap:6px;cursor:pointer;
+          padding:6px 12px;border-radius:8px;border:1.5px solid ${on?'#c4b5fd':'#e5e7eb'};
+          background:${on?'#faf5ff':'#fff'};font-size:12px;font-weight:600;color:${on?'#6d28d9':'#374151'}">
+          <input type="checkbox" ${on?'checked':''} onchange="stuJobToggleOaEtc('${v}')"
+            style="accent-color:#7c3aed">${v}
+        </label>`;
+      }).join('')}
+    </div>
+
+    <!-- 운전면허 -->
+    <div style="font-size:12px;font-weight:700;color:#374151;margin-bottom:8px">운전면허</div>
+    <div style="display:flex;gap:7px;margin-bottom:14px">
+      ${['1종','2종','없음'].map(v => {
+        const on = j.license === v;
+        return `<button onclick="stuJobSetLicense('${v}')"
+          style="padding:7px 18px;border-radius:999px;font-size:12px;font-weight:700;cursor:pointer;
+            border:2px solid ${on?'#7c3aed':'#e5e7eb'};
+            background:${on?'linear-gradient(135deg,#7c3aed,#a78bfa)':'#fff'};
+            color:${on?'#fff':'#374151'}">${v}</button>`;
+      }).join('')}
+    </div>
+
+    <!-- 어학 -->
+    <div style="font-size:12px;font-weight:700;color:#374151;margin-bottom:8px">어학</div>
+    <div style="display:flex;gap:8px;margin-bottom:8px;flex-wrap:wrap">
+      <div style="display:flex;align-items:center;gap:6px;background:#f9fafb;
+        border-radius:8px;padding:6px 12px;border:1.5px solid #e9d5ff">
+        <span style="font-size:12px;font-weight:700;color:#374151;white-space:nowrap">TOEIC</span>
+        <input id="job-toeic" type="number" min="0" max="990" value="${esc(j.toeic)}"
+          placeholder="점수 입력"
+          onchange="StuJob.toeic=this.value"
+          style="width:90px;border:none;background:transparent;font-size:13px;outline:none;font-weight:600">
+        <span style="font-size:12px;color:#9ca3af">점</span>
+      </div>
+      <input id="job-lang-etc" type="text" value="${esc(j.langEtc)}"
+        placeholder="기타 어학 (예: JPT 600점)"
+        onchange="StuJob.langEtc=this.value"
+        style="flex:1;min-width:140px;border:1.5px solid #e9d5ff;border-radius:8px;
+          padding:8px 12px;font-size:13px;outline:none">
+    </div>
+
+    <!-- 기타 자격증 -->
+    <div style="font-size:12px;font-weight:700;color:#374151;margin:14px 0 6px">기타 자격증</div>
+    ${jobTagHtml(j.certOther, 'stuJobAddCertOther', 'stuJobRemoveCertOther', '예: 한국사 1급, 바리스타 2급', 'cert-other-input')}
+  `);
+
+  /* ---- 섹션 7: 학교·국가 지원 서비스 ---- */
+  const natNotice = (j.natSupport === '예' || j.natSupport === '잘 모르겠음') ? `
+    <div style="margin-top:12px;background:linear-gradient(135deg,#fdf2f8,#faf5ff);
+      border:1.5px solid #f9a8d4;border-radius:10px;padding:14px 16px">
+      <div style="font-size:12px;font-weight:800;color:#be185d;margin-bottom:6px">📋 국민취업지원제도 안내</div>
+      <div style="font-size:12px;color:#374151;line-height:1.7">
+        구직촉진수당 <strong>월 60만원 × 6개월</strong> 지원<br>
+        <span style="color:#9ca3af">(1유형 기준 / 유형에 따라 지원 내용이 달라질 수 있으며,<br>
+        자세한 사항은 상담사 선생님을 통해 확인하세요)</span>
+      </div>
+    </div>` : '';
+
+  const sec7 = jobSecCard(7, '🏫', '학교·국가 지원 서비스', `
+    <div style="margin-bottom:16px">
+      <div style="font-size:13px;font-weight:700;color:#374151;margin-bottom:8px">
+        잡카페 컨설턴트 상담 희망 여부
+      </div>
+      <div style="display:flex;gap:8px">
+        ${['예','아니오'].map(v => {
+          const on = j.cafeCounsel === v;
+          return `<button onclick="stuJobSetCafe('${v}')"
+            style="flex:1;padding:10px;border-radius:10px;font-size:13px;font-weight:700;cursor:pointer;
+              border:2px solid ${on?'#7c3aed':'#e5e7eb'};
+              background:${on?'linear-gradient(135deg,#7c3aed,#a78bfa)':'#fff'};
+              color:${on?'#fff':'#374151'}">${v}</button>`;
+        }).join('')}
+      </div>
+    </div>
+    <div>
+      <div style="font-size:13px;font-weight:700;color:#374151;margin-bottom:8px">
+        국민취업지원제도 연계 희망 여부
+      </div>
+      <div style="display:flex;gap:8px">
+        ${['예','아니오','잘 모르겠음'].map(v => {
+          const on = j.natSupport === v;
+          return `<button onclick="stuJobSetNat('${v}')"
+            style="flex:1;padding:10px;border-radius:10px;font-size:13px;font-weight:700;cursor:pointer;
+              border:2px solid ${on?'#7c3aed':'#e5e7eb'};
+              background:${on?'linear-gradient(135deg,#7c3aed,#a78bfa)':'#fff'};
+              color:${on?'#fff':'#374151'}">${v}</button>`;
+        }).join('')}
+      </div>
+      ${natNotice}
+    </div>`);
+
+  /* ---- 섹션 8: 상담사에게 한마디 ---- */
+  const sec8 = jobSecCard(8, '💬', '상담사에게 한마디', `
+    <textarea id="job-counsel-msg"
+      placeholder="상담 선생님께 전하고 싶은 말을 자유롭게 적어주세요"
+      oninput="StuJob.counselorMsg=this.value;stuJobUpdateSec8()"
+      style="width:100%;min-height:100px;border:1.5px solid #e9d5ff;border-radius:10px;
+        padding:12px 14px;font-size:13px;line-height:1.6;resize:vertical;outline:none;
+        font-family:inherit;color:#374151;box-sizing:border-box">${esc(j.counselorMsg)}</textarea>
+    <div style="text-align:right;font-size:11px;color:#9ca3af;margin-top:4px" id="job-msg-count">
+      ${j.counselorMsg.length}자 입력됨
+    </div>`);
+
+  /* ---- 진행도 요약 배너 ---- */
+  const doneCount = [1,2,3,4,5,6,7,8].filter(n => jobSecDone(n)).length;
+  const totalSec  = j.direction === '취업' ? 8 : 7;
+  const pct = Math.round((doneCount / totalSec) * 100);
 
   document.getElementById('app-content').innerHTML = `
-  <div class="stu-job-wrap">
+  <div class="stu-job-wrap" style="padding-bottom:40px">
     ${stuBack('stu-home')}
 
-    <!-- 준비도 링 -->
-    <div class="stu-readiness-ring-wrap stu-animate">
-      <div class="stu-readiness-ring-label">취업 준비도</div>
-      <div class="stu-ring-container">
-        <svg class="stu-ring-svg" width="140" height="140" viewBox="0 0 140 140">
-          <circle class="stu-ring-bg" cx="70" cy="70" r="54"/>
-          <circle class="stu-ring-fg" cx="70" cy="70" r="54"
-            stroke-dasharray="${circ}"
-            stroke-dashoffset="${offset}"/>
-        </svg>
-        <div class="stu-ring-text">
-          <span class="stu-ring-pct">${pct}</span>
-          <span class="stu-ring-unit">%</span>
-        </div>
+    <!-- 진행도 배너 -->
+    <div class="stu-animate" style="background:linear-gradient(135deg,#7c3aed,#ec4899);
+      border-radius:16px;padding:20px 22px;color:#fff;margin-bottom:20px">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
+        <div style="font-size:15px;font-weight:800">📝 취업 기초 정보 입력</div>
+        <div style="font-size:18px;font-weight:900">${pct}%</div>
       </div>
-      <div style="font-size:15px;font-weight:700;opacity:.9;margin-bottom:4px">
-        ${emp ? emp.prepLevel : '아직 시작 전이에요'}
+      <div style="background:rgba(255,255,255,.25);border-radius:999px;height:8px;overflow:hidden">
+        <div style="background:#fff;height:100%;border-radius:999px;width:${pct}%;transition:width .4s"></div>
       </div>
-      <div style="font-size:13px;opacity:.65">
-        ${emp ? `${emp.desiredTiming}까지 ${emp.desiredJobs.join(', ')} 목표` : ''}
+      <div style="font-size:12px;opacity:.8;margin-top:8px">
+        ${doneCount}개 섹션 완료 · ${totalSec - doneCount}개 남음
       </div>
     </div>
 
-    <!-- 희망 직무 섹션 + 수정 버튼 -->
-    ${emp ? `
-      <div style="display:flex;align-items:center;justify-content:space-between;margin:16px 0 10px">
-        <div class="stu-section-title" style="margin:0">🎯 희망 직무 & 조건</div>
-        <button id="job-edit-btn" onclick="toggleJobEditMode()"
-          style="background:#fef3c7;color:#d97706;border:none;border-radius:999px;
-            padding:6px 16px;font-size:13px;font-weight:700;cursor:pointer">
-          ✏️ 수정하기
-        </button>
-      </div>
+    ${sec1}
+    ${sec2}
+    ${sec3}
+    ${sec4}
+    ${sec5}
+    ${sec6}
+    ${sec7}
+    ${sec8}
 
-      <!-- 조회 모드 -->
-      <div id="job-view-mode" style="background:#fff;border-radius:var(--radius-lg);padding:20px;
-        box-shadow:0 2px 12px rgba(0,0,0,.07);margin-bottom:16px" class="stu-animate stu-animate-delay-1">
-        <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px">
-          ${emp.desiredJobs.map(j =>
-            `<span style="background:linear-gradient(135deg,#eef2ff,#f5f3ff);color:#4f46e5;
-              padding:7px 14px;border-radius:999px;font-size:13px;font-weight:700;
-              border:1.5px solid #c7d2fe">${esc(j)}</span>`
-          ).join('')}
-        </div>
-        ${[
-          ['📅 목표 시기', emp.desiredTiming],
-          ['📍 희망 지역', emp.desiredLocation],
-          ['🏢 희망 업종', emp.desiredIndustry],
-          ['💰 희망 연봉', emp.desiredSalary],
-        ].map(([k, v]) => `
-          <div style="display:flex;gap:12px;padding:8px 0;border-top:1px solid #f3f4f6;font-size:14px">
-            <span style="color:#9ca3af;width:100px;flex-shrink:0">${k}</span>
-            <span style="font-weight:600;color:#1f2937">${esc(v)}</span>
-          </div>`).join('')}
-      </div>
+    <!-- AI 취업 로드맵 생성 버튼 -->
+    <button id="job-ai-btn" onclick="stuJobAiAnalyze()"
+      style="width:100%;padding:18px;border-radius:16px;border:none;cursor:pointer;
+        background:linear-gradient(135deg,#7c3aed,#ec4899);color:#fff;
+        font-size:16px;font-weight:800;display:flex;align-items:center;justify-content:center;gap:10px;
+        box-shadow:0 4px 16px rgba(124,58,237,.35);margin-bottom:16px">
+      <span style="font-size:22px">🤖</span>
+      AI 취업 로드맵 생성하기
+      <span style="font-size:12px;font-weight:500;opacity:.85">추천 직무·준비 일정·전략 자동 생성</span>
+    </button>
 
-      <!-- 수정 모드 (초기 숨김) -->
-      <div id="job-edit-mode" style="display:none;background:#fff;border:1.5px solid #fde68a;
-        border-radius:var(--radius-lg);padding:20px;margin-bottom:16px">
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px">
-          <div>
-            <label style="font-size:12px;font-weight:700;color:#374151;display:block;margin-bottom:4px">희망 직무</label>
-            <input id="edit-job1" type="text" value="${esc(emp.desiredJobs[0]||'')}"
-              style="width:100%;border:1.5px solid #fde68a;border-radius:8px;padding:8px 10px;font-size:13px">
-          </div>
-          <div>
-            <label style="font-size:12px;font-weight:700;color:#374151;display:block;margin-bottom:4px">희망 직무 2</label>
-            <input id="edit-job2" type="text" value="${esc(emp.desiredJobs[1]||'')}"
-              style="width:100%;border:1.5px solid #fde68a;border-radius:8px;padding:8px 10px;font-size:13px">
-          </div>
-          <div>
-            <label style="font-size:12px;font-weight:700;color:#374151;display:block;margin-bottom:4px">목표 시기</label>
-            <input id="edit-timing" type="text" value="${esc(emp.desiredTiming)}"
-              style="width:100%;border:1.5px solid #fde68a;border-radius:8px;padding:8px 10px;font-size:13px">
-          </div>
-          <div>
-            <label style="font-size:12px;font-weight:700;color:#374151;display:block;margin-bottom:4px">희망 지역</label>
-            <select id="edit-location"
-              style="width:100%;border:1.5px solid #fde68a;border-radius:8px;padding:8px 10px;font-size:13px">
-              ${['수도권','서울','경기/인천','지방','무관'].map(l =>
-                `<option ${emp.desiredLocation===l?'selected':''}>${l}</option>`).join('')}
-            </select>
-          </div>
-        </div>
-        <div style="margin-bottom:12px">
-          <label style="font-size:12px;font-weight:700;color:#374151;display:block;margin-bottom:4px">희망 자격증</label>
-          <input id="edit-cert1" type="text" value="${esc(emp.cert1)}"
-            style="width:100%;border:1.5px solid #fde68a;border-radius:8px;padding:8px 10px;font-size:13px">
-        </div>
-        <div style="display:flex;gap:8px">
-          <button onclick="saveJobEdit()"
-            style="flex:1;background:linear-gradient(135deg,#d97706,#f59e0b);color:#fff;border:none;
-              border-radius:10px;padding:12px;font-size:14px;font-weight:800;cursor:pointer">
-            💾 저장하기
-          </button>
-          <button onclick="toggleJobEditMode()"
-            style="flex:1;background:#f3f4f6;color:#6b7280;border:none;
-              border-radius:10px;padding:12px;font-size:14px;font-weight:700;cursor:pointer">
-            취소
-          </button>
-        </div>
-      </div>
-
-      <!-- 자격증·스킬 -->
-      <div class="stu-section-title stu-animate stu-animate-delay-2">🏅 자격증 & 스킬</div>
-      <div style="background:#fff;border-radius:var(--radius-lg);padding:20px;
-        box-shadow:0 2px 12px rgba(0,0,0,.07);margin-bottom:16px" class="stu-animate stu-animate-delay-2">
-        ${[
-          ['자격증 1', emp.cert1],
-          ['자격증 2', emp.cert2],
-          ['IT 스킬',  emp.itSkill],
-        ].filter(([,v]) => v).map(([k, v]) => `
-          <div style="display:flex;gap:12px;padding:8px 0;border-bottom:1px solid #f3f4f6;font-size:14px">
-            <span style="color:#9ca3af;width:80px;flex-shrink:0">${k}</span>
-            <span style="font-weight:600;color:#1f2937">${esc(v)}</span>
-          </div>`).join('')}
-      </div>` : ''}
-
-    <!-- 준비 체크리스트 -->
-    <div class="stu-section-title stu-animate stu-animate-delay-3">📋 취업 준비 체크리스트</div>
-    <div class="stu-checklist stu-animate stu-animate-delay-3">
-      ${[
-        { label:'이력서 작성 완료',     done: emp?.resumeReady   || false, icon:'📄' },
-        { label:'자기소개서 작성',      done: emp?.introReady    || false, icon:'✍️' },
-        { label:'면접 준비 (모의 면접)', done: emp?.interviewReady|| false, icon:'🎤' },
-        { label:'ADsP 자격증 취득',     done: false,                       icon:'🏅' },
-        { label:'GitHub 포트폴리오',    done: false,                       icon:'💻' },
-        { label:'인턴십 경험',          done: false,                       icon:'🏢' },
-      ].map(item => `
-        <div class="stu-check-item ${item.done ? 'done' : ''}"
-          onclick="this.classList.toggle('done');this.querySelector('.stu-check-circle').innerHTML=this.classList.contains('done')?'✓':''">
-          <div class="stu-check-circle">${item.done ? '✓' : ''}</div>
-          <span style="font-size:18px;width:24px;text-align:center">${item.icon}</span>
-          <span class="stu-check-label">${item.label}</span>
-        </div>`).join('')}
-    </div>
-
-    <!-- AI 조언 -->
-    <div class="stu-ai-box stu-animate"
-      style="background:linear-gradient(135deg,#fdf4ff,#fce7f3);border:1.5px solid #f9a8d4;margin-top:16px">
-      <div class="stu-ai-box-label" style="color:#be185d">🤖 AI의 취업 준비 조언</div>
-      <div class="stu-ai-text">
-        지금 단계에서 가장 중요한 건 <strong>ADsP 자격증</strong>이에요!<br>
-        2026년 5월 시험에 등록하고, 이력서도 조금씩 써보기 시작하면 딱 좋은 타이밍이에요 📝<br>
-        작은 것 하나씩 해나가다 보면 어느새 준비가 다 되어 있을 거예요 💪
-      </div>
-    </div>
+    <!-- AI 분석 결과 영역 -->
+    <div id="job-ai-result" style="display:none"></div>
 
   </div>`;
-  setStuTitle('취업준비', '나의 취업 준비 현황');
+  setStuTitle('취업준비', '취업 기초 정보 입력');
 }
 
-function toggleJobEditMode() {
-  stuJobEditMode = !stuJobEditMode;
-  document.getElementById('job-view-mode').style.display = stuJobEditMode ? 'none' : 'block';
-  document.getElementById('job-edit-mode').style.display = stuJobEditMode ? 'block' : 'none';
-  const btn = document.getElementById('job-edit-btn');
-  if (btn) btn.textContent = stuJobEditMode ? '✕ 닫기' : '✏️ 수정하기';
-}
-
-function saveJobEdit() {
-  const emp = EMPLOYMENT_STATUS['stu-001'];
-  if (emp) {
-    const j1 = document.getElementById('edit-job1')?.value.trim();
-    const j2 = document.getElementById('edit-job2')?.value.trim();
-    emp.desiredJobs    = [j1, j2].filter(Boolean);
-    emp.desiredTiming  = document.getElementById('edit-timing')?.value || emp.desiredTiming;
-    emp.desiredLocation= document.getElementById('edit-location')?.value || emp.desiredLocation;
-    emp.cert1          = document.getElementById('edit-cert1')?.value || emp.cert1;
-  }
-  showToast('취업 준비 정보가 저장되었습니다.', 'success');
+/* ---- 섹션 이벤트 핸들러 ---- */
+function stuJobSetDir(val) {
+  StuJob.direction = val;
   renderStudentJob();
+}
+function stuJobSetTiming(val) {
+  StuJob.timing = val;
+  renderStudentJob();
+}
+function stuJobToggleRegion(val) {
+  const i = StuJob.regions.indexOf(val);
+  if (i >= 0) StuJob.regions.splice(i, 1);
+  else StuJob.regions.push(val);
+  renderStudentJob();
+}
+function stuJobToggleJob(val) {
+  const i = StuJob.jobTypes.indexOf(val);
+  if (i >= 0) StuJob.jobTypes.splice(i, 1);
+  else StuJob.jobTypes.push(val);
+  renderStudentJob();
+}
+function stuJobAddTag() {
+  const el = document.getElementById('job-tag-input');
+  const v  = el?.value.trim();
+  if (v && !StuJob.jobTags.includes(v)) { StuJob.jobTags.push(v); renderStudentJob(); }
+  else if (el) el.value = '';
+}
+function stuJobRemoveTag(i) {
+  StuJob.jobTags.splice(i, 1);
+  renderStudentJob();
+}
+function stuJobSetSalary(val) {
+  StuJob.salary = val;
+  renderStudentJob();
+}
+function stuJobAddCertMajor() {
+  const el = document.getElementById('cert-major-input');
+  const v  = el?.value.trim();
+  if (v && !StuJob.certMajor.includes(v)) { StuJob.certMajor.push(v); renderStudentJob(); }
+  else if (el) el.value = '';
+}
+function stuJobRemoveCertMajor(i) {
+  StuJob.certMajor.splice(i, 1);
+  renderStudentJob();
+}
+function stuJobSetOa(val) {
+  StuJob.oaLevel = val;
+  renderStudentJob();
+}
+function stuJobToggleOaEtc(val) {
+  const i = StuJob.oaEtc.indexOf(val);
+  if (i >= 0) StuJob.oaEtc.splice(i, 1);
+  else StuJob.oaEtc.push(val);
+  renderStudentJob();
+}
+function stuJobSetLicense(val) {
+  StuJob.license = val;
+  renderStudentJob();
+}
+function stuJobAddCertOther() {
+  const el = document.getElementById('cert-other-input');
+  const v  = el?.value.trim();
+  if (v && !StuJob.certOther.includes(v)) { StuJob.certOther.push(v); renderStudentJob(); }
+  else if (el) el.value = '';
+}
+function stuJobRemoveCertOther(i) {
+  StuJob.certOther.splice(i, 1);
+  renderStudentJob();
+}
+function stuJobSetCafe(val) {
+  StuJob.cafeCounsel = val;
+  renderStudentJob();
+}
+function stuJobSetNat(val) {
+  StuJob.natSupport = val;
+  renderStudentJob();
+}
+function stuJobUpdateSec8() {
+  const cnt = document.getElementById('job-msg-count');
+  if (cnt) cnt.textContent = StuJob.counselorMsg.length + '자 입력됨';
+}
+
+/* ---- AI 취업 로드맵 분석 ---- */
+function stuJobAiAnalyze() {
+  const btn  = document.getElementById('job-ai-btn');
+  const area = document.getElementById('job-ai-result');
+  if (!btn || !area) return;
+
+  btn.disabled = true;
+  btn.innerHTML = `
+    <div class="spinner" style="width:20px;height:20px;border-color:rgba(255,255,255,.3);border-top-color:#fff;margin-right:10px"></div>
+    AI가 분석하고 있어요...`;
+
+  area.style.display = 'block';
+  area.innerHTML = `
+    <div style="background:linear-gradient(135deg,#faf5ff,#fdf2f8);border:1.5px solid #e9d5ff;
+      border-radius:16px;padding:28px;text-align:center;margin-bottom:16px">
+      <div style="font-size:36px;margin-bottom:10px">🤖</div>
+      <div style="font-weight:800;font-size:15px;color:#6d28d9;margin-bottom:6px">AI 취업 로드맵 생성 중</div>
+      <div style="font-size:13px;color:#9ca3af;margin-bottom:16px">입력하신 정보를 분석하고 있어요</div>
+      <div style="display:flex;flex-direction:column;gap:6px;max-width:220px;margin:0 auto">
+        ${['추천 직무 분석 중...','취업 준비 일정 생성 중...','맞춤 전략 최적화 중...'].map(t => `
+          <div style="display:flex;align-items:center;gap:8px;font-size:12px;color:#a78bfa;font-weight:600">
+            <div class="spinner" style="width:12px;height:12px;border-color:rgba(167,139,250,.3);border-top-color:#a78bfa;flex-shrink:0"></div>
+            ${t}
+          </div>`).join('')}
+      </div>
+    </div>`;
+
+  setTimeout(() => {
+    StuJob.aiShown = true;
+    btn.innerHTML = `<span style="font-size:18px">✅</span> AI 취업 로드맵 생성 완료!`;
+    btn.style.background = 'linear-gradient(135deg,#059669,#0891b2)';
+    btn.disabled = true;
+    stuJobRenderAiResult(area);
+  }, 2400);
+}
+
+function stuJobRenderAiResult(area) {
+  const j = StuJob;
+  const directionLabel = j.direction || '취업';
+  const regionLabel    = j.regions.length ? j.regions.join(', ') : '무관';
+  const salaryLabel    = j.salary || '무관';
+
+  area.innerHTML = `
+    <!-- 추천 직무 3가지 -->
+    <div style="background:#fff;border-radius:16px;border:1.5px solid #c4b5fd;
+      overflow:hidden;margin-bottom:14px">
+      <div style="background:linear-gradient(135deg,#faf5ff,#fdf4ff);padding:14px 18px;
+        font-size:14px;font-weight:800;color:#6d28d9;border-bottom:1px solid #e9d5ff">
+        🎯 추천 직무 3가지
+      </div>
+      <div style="padding:16px 18px;display:flex;flex-direction:column;gap:10px">
+        ${[
+          { rank:'1순위', job:'데이터 분석가', fit:'95%', reason:'전공 일치도 최상, 흥미코드(RI)와 딱 맞아요', color:'#7c3aed' },
+          { rank:'2순위', job:'AI 엔지니어',  fit:'88%', reason:'소프트웨어 역량과 AI 트렌드 연계 가능', color:'#0891b2' },
+          { rank:'3순위', job:'IT 컨설턴트',  fit:'80%', reason:'분석적 사고 + 커뮤니케이션 강점 활용', color:'#059669' },
+        ].map(d => `
+          <div style="display:flex;align-items:flex-start;gap:12px;padding:12px 14px;
+            background:linear-gradient(135deg,${d.color}0d,${d.color}05);
+            border-radius:10px;border-left:4px solid ${d.color}">
+            <div style="flex-shrink:0;text-align:center">
+              <div style="font-size:11px;font-weight:700;color:${d.color}">${d.rank}</div>
+              <div style="font-size:18px;font-weight:900;color:${d.color}">${d.fit}</div>
+            </div>
+            <div>
+              <div style="font-size:14px;font-weight:800;color:#1f2937">${d.job}</div>
+              <div style="font-size:12px;color:#6b7280;margin-top:2px">${d.reason}</div>
+            </div>
+          </div>`).join('')}
+      </div>
+    </div>
+
+    <!-- 취업 준비 일정 (월별) -->
+    <div style="background:#fff;border-radius:16px;border:1.5px solid #c4b5fd;
+      overflow:hidden;margin-bottom:14px">
+      <div style="background:linear-gradient(135deg,#faf5ff,#fdf4ff);padding:14px 18px;
+        font-size:14px;font-weight:800;color:#6d28d9;border-bottom:1px solid #e9d5ff">
+        📅 취업 준비 일정 (월별 로드맵)
+      </div>
+      <div style="padding:16px 18px">
+        ${[
+          { month:'2026년 5~6월', icon:'🌱', tasks:['ADsP 자격증 시험 등록 및 준비','파이썬 기초 온라인 강의 수강','진로 상담 1회 예약'], color:'#4f46e5' },
+          { month:'2026년 7~8월', icon:'🚀', tasks:['ADsP 자격증 취득 목표','깃허브 포트폴리오 기초 정리','인턴십 공고 모니터링 시작'], color:'#0891b2' },
+          { month:'2026년 9~10월',icon:'🏆', tasks:['캡스톤디자인 주제 확정','이력서 초안 작성','AI 취업캠프 참가'], color:'#059669' },
+          { month:'2026년 11월~', icon:'💼', tasks:['자기소개서 작성 완료','채용공고 지원 시작 (3곳 이상)','모의 면접 훈련'], color:'#ec4899' },
+        ].map(m => `
+          <div style="display:flex;gap:12px;margin-bottom:12px">
+            <div style="flex-shrink:0;width:100px;padding-top:2px">
+              <div style="font-size:11px;font-weight:700;color:${m.color}">${m.icon} ${m.month}</div>
+            </div>
+            <div style="flex:1;border-left:2px solid ${m.color}20;padding-left:12px">
+              ${m.tasks.map(t => `
+                <div style="font-size:12px;color:#374151;margin-bottom:4px;display:flex;gap:6px">
+                  <span style="color:${m.color}">•</span>${t}
+                </div>`).join('')}
+            </div>
+          </div>`).join('')}
+      </div>
+    </div>
+
+    <!-- 추천 자격증 -->
+    <div style="background:#fff;border-radius:16px;border:1.5px solid #c4b5fd;
+      overflow:hidden;margin-bottom:14px">
+      <div style="background:linear-gradient(135deg,#faf5ff,#fdf4ff);padding:14px 18px;
+        font-size:14px;font-weight:800;color:#6d28d9;border-bottom:1px solid #e9d5ff">
+        🏅 추천 자격증
+      </div>
+      <div style="padding:16px 18px;display:flex;flex-direction:column;gap:8px">
+        ${[
+          { name:'데이터분석준전문가(ADsP)',  timing:'2026 하반기', priority:'높음', reason:'데이터 직무 입문, 학부생 합격률 높음' },
+          { name:'SQL개발자(SQLD)',            timing:'2027 상반기', priority:'중간', reason:'데이터베이스 실무역량 증명' },
+          { name:'정보처리기사',               timing:'졸업 전',     priority:'중간', reason:'IT 직무 전반 기본 자격' },
+        ].map((c, i) => `
+          <div style="display:flex;align-items:flex-start;justify-content:space-between;
+            padding:10px 12px;background:${i%2===0?'#faf5ff':'#fff'};border-radius:8px;
+            border:1px solid #e9d5ff">
+            <div>
+              <div style="font-size:13px;font-weight:800;color:#1f2937">${c.name}</div>
+              <div style="font-size:12px;color:#6b7280;margin-top:2px">${c.reason}</div>
+            </div>
+            <div style="text-align:right;flex-shrink:0;margin-left:10px">
+              <div style="font-size:11px;font-weight:700;padding:2px 8px;border-radius:999px;margin-bottom:3px;
+                background:${c.priority==='높음'?'#fef2f2':'#fff7ed'};
+                color:${c.priority==='높음'?'#dc2626':'#d97706'}">${c.priority}</div>
+              <div style="font-size:11px;color:#9ca3af">${c.timing}</div>
+            </div>
+          </div>`).join('')}
+      </div>
+    </div>
+
+    <!-- 맞춤 취업 전략 -->
+    <div style="background:linear-gradient(135deg,#fdf2f8,#faf5ff);border-radius:16px;
+      border:1.5px solid #f9a8d4;padding:18px 20px;margin-bottom:8px">
+      <div style="font-size:14px;font-weight:800;color:#be185d;margin-bottom:12px">
+        💡 나를 위한 맞춤 취업 전략
+      </div>
+      ${[
+        { icon:'📊', title:'포트폴리오 우선',  desc:`데이터 분석직은 실력 증명이 핵심이에요. 깃허브에 분석 프로젝트 2~3개를 쌓으면 서류 통과율이 크게 높아져요.` },
+        { icon:'📍', title:`${regionLabel} 집중 공략`, desc:`선택하신 지역 기업들의 채용 주기를 미리 파악해두면 좋아요. 상하반기 공채 시즌을 노리세요.` },
+        { icon:'💰', title:`연봉 ${salaryLabel} 목표 달성`, desc:`신입 기준 적정 수준이에요. 자격증 + 인턴십 경험이 있으면 협상 여지가 생겨요.` },
+        { icon:'🤝', title:'잡카페·국가 지원 적극 활용', desc:`잡카페 컨설턴트 상담과 국민취업지원제도를 연계하면 취업 준비 비용 부담을 줄일 수 있어요.` },
+      ].map(s => `
+        <div style="display:flex;gap:10px;margin-bottom:10px">
+          <span style="font-size:18px;flex-shrink:0">${s.icon}</span>
+          <div>
+            <div style="font-size:13px;font-weight:800;color:#1f2937">${s.title}</div>
+            <div style="font-size:12px;color:#6b7280;margin-top:2px;line-height:1.6">${s.desc}</div>
+          </div>
+        </div>`).join('')}
+    </div>
+  `;
 }
 
 /* ==========================================================
